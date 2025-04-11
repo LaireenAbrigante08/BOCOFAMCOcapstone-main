@@ -1,0 +1,707 @@
+<%- include('../partials/membersidebar') %>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 110vh;
+        padding-left: 250px; /* Adjust for sidebar */
+    }
+    
+    .loan-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        width: 150%;
+        max-width: 1000px;
+        margin-left: 20px;
+    }
+    
+    .loan-container h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #1d3557;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    label {
+        font-weight: bold;
+    }
+    
+    input, select, textarea {
+        width: 100%;
+        padding: 9px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    button {
+        background-color: #457b9d;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+    
+    button:hover {
+        background-color: #1d3557;
+    }
+    
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .notification {
+        display: none;
+        padding: 12px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .notification.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .notification.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .printable-area {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+    }
+    
+    /* Styles for the printed form */
+    .print-header {
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #000;
+        padding-bottom: 10px;
+    }
+    
+    .print-header img {
+        width: 60px;
+        height: auto;
+        margin-right: 10px;
+    }
+    
+    .print-header h2 {
+        font-size: 16px;
+        margin: 5px 0;
+        font-weight: bold;
+    }
+    
+    .print-header p {
+        font-size: 12px;
+        margin: 2px 0;
+    }
+    
+    .print-title {
+        text-align: center;
+        font-weight: bold;
+        margin: 15px 0;
+        font-size: 14px;
+        text-decoration: underline;
+    }
+    
+    .print-section {
+        margin-bottom: 15px;
+        clear: both;
+    }
+    
+    .print-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        clear: both;
+    }
+    
+    .print-field {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 5px;
+        position: relative;
+    }
+    
+    .print-label {
+        font-weight: bold;
+        margin-right: 5px;
+        font-size: 12px;
+        min-width: fit-content;
+    }
+    
+    .print-value {
+        border-bottom: 1px solid #000;
+        min-width: 200px;
+        padding: 2px 5px;
+        font-size: 12px;
+        display: inline-block;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+    
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        white-space: nowrap;
+        margin-right: 10px;
+    }
+    
+    .checkbox {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border: 1px solid #000;
+        margin-right: 5px;
+        text-align: center;
+    }
+    
+    .signature-line {
+        border-top: 1px solid #000;
+        width: 180px;
+        text-align: center;
+        padding-top: 5px;
+        margin-top: 20px;
+        font-size: 12px;
+        display: inline-block;
+    }
+    
+    .approval-section {
+        margin-top: 20px;
+        border-top: 1px solid #000;
+        padding-top: 10px;
+        clear: both;
+    }
+    
+    .print-col-left {
+        float: left;
+        width: 48%;
+    }
+    
+    .print-col-right {
+        float: right;
+        width: 48%;
+    }
+    
+    .print-full-width {
+        width: 100%;
+        clear: both;
+    }
+    
+    .print-signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .print-signatures-center {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .print-committee {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+    
+    .print-instruction {
+        font-style: italic;
+        font-size: 10px;
+        text-align: right;
+        margin-bottom: 5px;
+    }
+    
+    .print-applicant-header {
+        text-align: center;
+        font-weight: bold;
+        margin: 15px 0;
+        font-size: 14px;
+    }
+    
+    .print-declaration {
+        text-align: justify;
+        font-size: 12px;
+        margin: 15px 0;
+    }
+    
+    .print-declaration ol {
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .print-declaration li {
+        margin-bottom: 5px;
+    }
+    
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        .printable-area, .printable-area * {
+            visibility: visible;
+        }
+        .printable-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .print-header h2 {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .print-header p {
+            font-size: 10px;
+        }
+        
+        .print-title {
+            font-size: 12px;
+            margin: 10px 0;
+        }
+        
+        .print-label, .print-value, .checkbox-item, .signature-line {
+            font-size: 10px;
+        }
+    }
+</style>
+
+<body>
+    <div class="loan-container">
+        <h2>Salary/Bonuses Loan Application Form</h2>
+        <div id="notification" class="notification"></div>
+        <form id="loanForm" action="/member/loan-salary" method="POST">
+            <div class="form-grid">
+                <div>
+                    <label for="cb_number">CB Number:</label>
+                    <input type="text" id="cb_number" name="cb_number" required>
+                    
+                    <label for="application_no">Application No:</label>
+                    <input type="text" id="application_no" name="application_no" required>
+
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+                    
+                    <label for="loan_type">Type of Loan:</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <input type="checkbox" id="new_loan" name="loan_type" value="New">
+                            <label for="new_loan">New</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="salary_loan" name="loan_type" value="Salary Loan" checked>
+                            <label for="salary_loan">Salary Loan</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="renewal" name="loan_type" value="Renewal">
+                            <label for="renewal">Renewal</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="bonus" name="loan_type" value="Bonus">
+                            <label for="bonus">/Bonus</label>
+                        </div>
+                    </div>
+
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" required>
+
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" required>
+
+                    <label for="middle_initial">M.I.:</label>
+                    <input type="text" id="middle_initial" name="middle_initial">
+
+                    <label for="municipality">Municipality:</label>
+                    <input type="text" id="municipality" name="municipality">
+                </div>
+
+                <div>
+                    <label for="position">Position:</label>
+                    <input type="text" id="position" name="position" required>
+                    
+                    <label for="length_of_service">Length of Service (Years):</label>
+                    <input type="number" id="length_of_service" name="length_of_service">
+                    
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age">
+                    
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" required></textarea>
+                    
+                    <label for="office_agency">Name of Office/Agency:</label>
+                    <input type="text" id="office_agency" name="office_agency">
+                    
+                    <label for="basic_monthly_salary">Basic Monthly Salary:</label>
+                    <input type="number" step="0.01" id="basic_monthly_salary" name="basic_monthly_salary">
+                    
+                    <label for="net_take_home_pay">Net Take Home Pay:</label>
+                    <input type="number" step="0.01" id="net_take_home_pay" name="net_take_home_pay">
+                </div>
+            </div>
+            
+            <div class="form-grid">
+                <div>
+                    <label for="spouse_name">Name of Spouse:</label>
+                    <input type="text" id="spouse_name" name="spouse_name">
+                </div>
+                
+                <div>
+                    <label for="contact_no">Contact No. of Applicant:</label>
+                    <input type="text" id="contact_no" name="contact_no" required>
+                </div>
+            </div>
+            
+            <div class="form-grid">
+                <div>
+                    <label for="loan_amount">Amount of Loan:</label>
+                    <input type="number" step="0.01" id="loan_amount" name="loan_amount" required>
+                </div>
+            </div>
+            <br>
+            <button type="submit">Submit Application</button>
+        </form>
+        
+        <div id="printableArea" class="printable-area">
+            <div class="print-header">
+                <img src="/images/LOGO.jpg" alt="BOCOFAMCO Logo" style="float: left; width: 40px;">
+                <h2>BONGABONG COCONUT FARMERS MULTI-PURPOSE COOPERATIVE</h2>
+                <p>(BOCOFAMCO)</p>
+                <p>Ubas St. Corner Durian St. Lalud Calapan City, Oriental Mindoro</p>
+                <p>C.D.A. Registration No. 9520-04001658 * TIN: 004-969-411-0003</p>
+                <p>Telefax: (043) 283-5264/Cp. No. 0939-2333818</p>
+                <p>E-mail Add. bocofamcobranch@gmail.com</p>
+            </div>
+            
+            <div style="display: flex; border: 1px solid #000; margin-bottom: 10px;">
+                <div style="flex: 1; border-right: 1px solid #000; padding: 10px; text-align: center;">
+                    <h3 style="font-size: 16px; margin: 0;">LOAN APPLICATION / AGREEMENT FORM</h3>
+                </div>
+                <div style="width: 250px; padding: 10px;">
+                    <div class="print-field">
+                        <span class="print-label">Application No. :</span>
+                        <span class="print-value" id="printAppNo" style="min-width: 150px;"></span>
+                    </div>
+                    <div class="print-field">
+                        <span class="print-label">Date :</span>
+                        <span class="print-value" id="printDate" style="min-width: 150px;"></span>
+                    </div>
+                    <div class="print-field">
+                        <span class="print-label">Type of Loan :</span>
+                    </div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkNew">( )</span> New
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkSalaryLoan">( )</span> Salary Loan
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkRenewal">( )</span> Renewal
+                        </div>
+                        <div class="checkbox-item">
+                            <span>/Bonus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="print-instruction">To be filled-up by Applicant</div>
+            
+            <div style="border: 1px solid #000; padding: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div style="font-weight: bold;">APPLICANT (Please Print)</div>
+                    <div style="width: 250px;">
+                        <div class="print-field">
+                            <span class="print-label">Position:</span>
+                            <span class="print-value" id="printPosition" style="min-width: 150px;"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; margin-top: 15px;">
+                    <div style="flex: 1;">
+                        <div class="print-field">
+                            <span class="print-value" id="printLastName" style="min-width: 150px;"></span>
+                        </div>
+                        <div style="font-size: 12px;">Last Name</div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="print-field">
+                            <span class="print-value" id="printFirstName" style="min-width: 150px;"></span>
+                        </div>
+                        <div style="font-size: 12px;">First Name</div>
+                    </div>
+                    <div style="width: 80px;">
+                        <div class="print-field">
+                            <span class="print-value" id="printMI" style="min-width: 50px;"></span>
+                        </div>
+                        <div style="font-size: 12px;">M.I.</div>
+                    </div>
+                    <div style="width: 250px;">
+                        <div>
+                            <div class="print-field">
+                                <span class="print-label">Length of Service:</span>
+                                <span class="print-value" id="printService" style="min-width: 50px;"></span>
+                                <span>Years</span>
+                            </div>
+                            <div class="print-field">
+                                <span class="print-label">Age</span>
+                                <span class="print-value" id="printAge" style="min-width: 50px;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 10px;">
+                    <div style="text-align: right; font-size: 12px;">Address:</div>
+                    <div class="print-field">
+                        <span class="print-value" id="printAddress" style="min-width: 100%; display: block;"></span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 10px;">
+                    <div class="print-field">
+                        <span class="print-label">Municipality:</span>
+                        <span class="print-value" id="printMunicipality" style="min-width: 150px;"></span>
+                    </div>
+                    
+                    <div class="print-field">
+                        <span class="print-label">Name of Office/Agency:</span>
+                        <span class="print-value" id="printOfficeAgency" style="min-width: 150px;"></span>
+                        <span style="margin-left: 20px;">addr:</span>
+                    </div>
+                    
+                    <div class="print-field">
+                        <span class="print-label">Basic Monthly Salary</span>
+                        <span class="print-value" id="printSalary" style="min-width: 150px;"></span>
+                        <span class="print-label" style="margin-left: 20px;">Net Take Home Pay :</span>
+                        <span class="print-value" id="printNetPay" style="min-width: 150px;"></span>
+                    </div>
+                    
+                    <div class="print-field">
+                        <span class="print-label">Name of Spouse:</span>
+                        <span class="print-value" id="printSpouseName" style="min-width: 150px;"></span>
+                        <span style="margin-left: 20px;">katay:</span>
+                    </div>
+                    
+                    <div class="print-field">
+                        <span class="print-label">Contact No. of Applicant:</span>
+                        <span class="print-value" id="printContactNo" style="min-width: 150px;"></span>
+                        <span style="margin-left: 20px;">addr:</span>
+                    </div>
+                </div>
+                
+                <div style="border-top: 1px dotted #000; margin: 15px 0;"></div>
+                
+                <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                    <div>purihin:</div>
+                    <div>
+                        <div>ta-home:</div>
+                        <div>cell no.:</div>
+                    </div>
+                </div>
+                
+                <div class="print-applicant-header">APPLICANT</div>
+                
+                <div class="print-declaration">
+                    <p>I, <span class="print-value" id="printFullName" style="min-width: 200px;"></span> of legal age, a resident of <span class="print-value" id="printResidence" style="min-width: 200px;"></span></p>
+                    <p style="text-align: center; font-size: 10px;">(Name of Applicant) (Address)</p>
+                    
+                    <p><span class="print-value" style="min-width: 100px;"></span>, and a <span class="print-value" id="printPositionDeclaration" style="min-width: 100px;"></span> of <span class="print-value" id="printAgencyDeclaration" style="min-width: 200px;"></span> hereby</p>
+                    <p style="text-align: center; font-size: 10px;">(Position) (Name of Agency/Office)</p>
+                    
+                    <p>apply for a Loan with BOCOFAMCO with an amount of <span class="print-value" id="printLoanAmount" style="min-width: 200px;"></span>. I hereby swear that:</p>
+                    
+                    <ol>
+                        <li>I am up-to-date in the payment of my existing loans;</li>
+                        <li>The pay slips I submitted in connection with my application for loan are correct and authentic;</li>
+                        <li>I am not respondent/party to any pending administrative or criminal case;</li>
+                        <li>The statements declared above are true and correct to the best of my knowledge and that this application is made for the purpose and consideration expressed above.</li>
+                    </ol>
+                    
+                    <p>I agree that should there be any misrepresentation discovered, the BOCOFAMCO to withdraw from my Bank Account through an ATM Card which I voluntarily surrender for this purpose the amount of monthly amortization due under this loan which may be granted by virtue of this application.</p>
+                    
+                    <p>In the event of my retirement or cessation from service I expressly authorized BOCOFAMCO in my name, place and stead to demand, claim, collect, receive any sum of money due and accruing to us from all the benefits that I and my beneficiaries may receive from any institutions including this Cooperative to the extent of the total amount due on this loan, inclusive of interest.</p>
+                </div>
+                
+                <div class="print-signatures-center">
+                    <div class="signature-line">Applicant (Printed Name and Signature)</div>
+                </div>
+                
+                <div style="display: flex; margin-top: 20px;">
+                    <div style="flex: 1;">
+                        <div class="print-field">
+                            <span class="print-label">Amount Applied :</span>
+                            <span>Php </span><span class="print-value" id="printAmountApplied" style="min-width: 150px;"></span>
+                        </div>
+                        <div class="print-field">
+                            <span class="print-label">Amount Approved:</span>
+                            <span>Php </span><span class="print-value" style="min-width: 150px;"></span>
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="print-field">
+                            <span class="print-label">Date Approved:</span>
+                            <span class="print-value" style="min-width: 150px;"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; margin-top: 30px;">
+                    <div style="flex: 1;">
+                        <p>Checked and Verified by:</p>
+                        <div style="text-align: center; margin-top: 30px;">
+                            <p style="font-weight: bold; text-align: center;">LEOMAR R. MUJE</p>
+                            <p style="text-align: center;">Loan Officer</p>
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <p>Approved by:</p>
+                        <div style="text-align: center; margin-top: 30px;">
+                            <p style="font-weight: bold; text-decoration: underline; text-align: center;">REYNALDO A. MALALUAN</p>
+                            <p style="text-align: center;">General Manager</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="printButton" style="display:none;" onclick="printForm()">Print Form</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set today's date as default
+            const today = new Date();
+            const formattedDate = today.toISOString().substr(0, 10);
+            document.getElementById('date').value = formattedDate;
+            
+            // Ensure only one checkbox is selected for loan type
+            const loanTypeCheckboxes = document.querySelectorAll('input[name="loan_type"]');
+            loanTypeCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        loanTypeCheckboxes.forEach(cb => {
+                            if (cb !== this) cb.checked = false;
+                        });
+                    }
+                });
+            });
+        });
+        
+        document.getElementById("loanForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const notification = document.getElementById("notification");
+            
+            fetch("/member/loan-salary", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                notification.textContent = data.message;
+                notification.className = data.success ? "notification success" : "notification error";
+                notification.style.display = "block";
+                
+                setTimeout(() => { notification.style.display = "none"; }, 3000);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                notification.textContent = "An error occurred. Please try again.";
+                notification.className = "notification error";
+                notification.style.display = "block";
+            });
+
+            // Populate the printable area
+            document.getElementById('printAppNo').textContent = document.getElementById('application_no').value;
+            document.getElementById('printDate').textContent = document.getElementById('date').value;
+            document.getElementById('printPosition').textContent = document.getElementById('position').value;
+            document.getElementById('printLastName').textContent = document.getElementById('last_name').value;
+            document.getElementById('printFirstName').textContent = document.getElementById('first_name').value;
+            document.getElementById('printMI').textContent = document.getElementById('middle_initial').value;
+            document.getElementById('printService').textContent = document.getElementById('length_of_service').value;
+            document.getElementById('printAge').textContent = document.getElementById('age').value;
+            document.getElementById('printAddress').textContent = document.getElementById('address').value;
+            document.getElementById('printMunicipality').textContent = document.getElementById('municipality').value;
+            document.getElementById('printOfficeAgency').textContent = document.getElementById('office_agency').value;
+            document.getElementById('printSalary').textContent = document.getElementById('basic_monthly_salary').value;
+            document.getElementById('printNetPay').textContent = document.getElementById('net_take_home_pay').value;
+            document.getElementById('printSpouseName').textContent = document.getElementById('spouse_name').value;
+            document.getElementById('printContactNo').textContent = document.getElementById('contact_no').value;
+            
+            // Full name for declaration
+            const fullName = `${document.getElementById('first_name').value} ${document.getElementById('middle_initial').value} ${document.getElementById('last_name').value}`;
+            document.getElementById('printFullName').textContent = fullName;
+            document.getElementById('printResidence').textContent = document.getElementById('address').value;
+            document.getElementById('printPositionDeclaration').textContent = document.getElementById('position').value;
+            document.getElementById('printAgencyDeclaration').textContent = document.getElementById('office_agency').value;
+            document.getElementById('printLoanAmount').textContent = document.getElementById('loan_amount').value;
+            document.getElementById('printAmountApplied').textContent = document.getElementById('loan_amount').value;
+            
+            // Handle checkboxes for loan type
+            if(document.getElementById('new_loan').checked) {
+                document.getElementById('checkNew').innerHTML = '(✓)';
+            }
+            if(document.getElementById('salary_loan').checked) {
+                document.getElementById('checkSalaryLoan').innerHTML = '(✓)';
+            }
+            if(document.getElementById('renewal').checked) {
+                document.getElementById('checkRenewal').innerHTML = '(✓)';
+            }
+
+            // Show the print button
+            document.getElementById('printButton').style.display = 'block';
+            
+            // Show the printable area for preview
+            document.getElementById('printableArea').style.display = 'block';
+        });
+
+        function printForm() {
+            window.print();
+        }
+    </script>
+</body>

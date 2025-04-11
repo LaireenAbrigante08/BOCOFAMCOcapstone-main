@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary/Bonuses Loan Form | BOCOFAMCO Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1e3a8a;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .form-group .readonly {
+            background-color: #f9fafb;
+            cursor: not-allowed;
+        }
+
+        .form-group .readonly:focus {
+            border-color: #e5e7eb;
+            box-shadow: none;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .form-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-actions button.submit {
+            background-color: #1e3a8a;
+            color: white;
+        }
+
+        .form-actions button.submit:hover {
+            background-color: #1d3557;
+        }
+
+        .form-actions button.cancel {
+            background-color: #e5e7eb;
+            color: #333;
+        }
+
+        .form-actions button.cancel:hover {
+            background-color: #d1d5db;
+        }
+
+        .form-actions button.save {
+            background-color: #047857;
+            color: white;
+        }
+
+        .form-actions button.save:hover {
+            background-color: #065f46;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-option input {
+            width: auto;
+        }
+
+        .total-loan {
+            background-color: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e0f2fe;
+        }
+
+        .total-loan-label {
+            font-weight: 600;
+            color: #0369a1;
+        }
+
+        .total-loan-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .or-section {
+            background-color: #ecfdf5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px solid #d1fae5;
+        }
+
+        .or-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .loan-type-radio {
+            margin-bottom: 15px;
+        }
+        
+        .take-home-section {
+            background-color: #eff6ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px solid #bfdbfe;
+        }
+        
+        .take-home-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .take-home-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+        
+        /* New styles for bonuses section */
+        .bonuses-section {
+            background-color: #fef3c7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #fde68a;
+            display: none;
+        }
+        
+        .bonuses-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .interest-section {
+            background-color: #ffedd5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #fed7aa;
+        }
+        
+        .days-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .days-table th, .days-table td {
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .days-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+        
+        .days-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body>
+    <% const currentPage = 'loan-applications'; %>
+    <%- include('../partials/adminsidebar', { currentPage }) %>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Salary/Bonuses Loan Form</h1>
+        </div>
+
+        <div class="form-container">
+            <!-- Display the CB_NUMBER -->
+            <div class="form-group">
+                <label for="cbNumber">CB Number</label>
+                <input type="text" id="cbNumber" class="readonly" value="<%= loan ? loan.cb_number : '' %>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Loan Type</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="salaryLoan" name="loanType" value="salary" checked>
+                        <label for="salaryLoan">Salary Loan</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="bonusesLoan" name="loanType" value="bonuses">
+                        <label for="bonusesLoan">Bonuses Loan</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bonuses Section (will show/hide based on loan type) -->
+            <div id="bonusesSection" class="bonuses-section">
+                <div class="bonuses-title">Bonuses Loan Options</div>
+                
+                <div class="form-group">
+                    <label>Bonus Type</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="midYearBonus" name="bonusType" value="midYear" checked>
+                            <label for="midYearBonus">Mid Year</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="yearEndBonus" name="bonusType" value="yearEnd">
+                            <label for="yearEndBonus">Year End</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="bothBonus" name="bonusType" value="both">
+                            <label for="bothBonus">Both</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="midYearSection">
+                    <div class="form-group">
+                        <label for="midYearAmount">Mid Year Amount (₱)</label>
+                        <input type="number" id="midYearAmount" placeholder="Enter mid year amount" value="0">
+                    </div>
+                </div>
+                
+                <div id="yearEndSection">
+                    <div class="form-group">
+                        <label for="yearEndAmount">Year End Amount (₱)</label>
+                        <input type="number" id="yearEndAmount" placeholder="Enter year end amount" value="0">
+                    </div>
+                </div>
+                
+                <div class="interest-section">
+                    <div class="bonuses-title">Days Calculation</div>
+                    
+                    <table class="days-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Mid Year (MY)</th>
+                                <th>Year End (YE)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>March</td>
+                                <td>29</td>
+                                <td>29</td>
+                            </tr>
+                            <tr>
+                                <td>April</td>
+                                <td>30</td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td>May</td>
+                                <td>15</td>
+                                <td>31</td>
+                            </tr>
+                            <tr>
+                                <td>June</td>
+                                <td>-</td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td>July</td>
+                                <td>-</td>
+                                <td>31</td>
+                            </tr>
+                            <tr>
+                                <td>August</td>
+                                <td>-</td>
+                                <td>31</td>
+                            </tr>
+                            <tr>
+                                <td>September</td>
+                                <td>-</td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td>October</td>
+                                <td>-</td>
+                                <td>31</td>
+                            </tr>
+                            <tr>
+                                <td>November</td>
+                                <td>-</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td><strong>74</strong></td>
+                                <td><strong>258</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="form-group">
+                        <label for="midYearInterest">Mid Year Interest (₱)</label>
+                        <input type="number" id="midYearInterest" class="readonly" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="yearEndInterest">Year End Interest (₱)</label>
+                        <input type="number" id="yearEndInterest" class="readonly" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="totalInterest">Total Interest (₱)</label>
+                        <input type="number" id="totalInterest" class="readonly" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="loanAmountGroup">
+                <label for="loanAmount">Loan Amount (₱)</label>
+                <input type="number" id="loanAmount" placeholder="Enter loan amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="previousBalance">Previous Loan Balance (₱)</label>
+                <input type="number" id="previousBalance" placeholder="Enter previous loan balance" required>
+            </div>
+
+            <div class="form-group">
+                <label for="newBalance">New Loan Balance (₱)</label>
+                <input type="number" id="newBalance" class="readonly" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="serviceFee">Service Fee (SF) - 2% (₱)</label>
+                <input type="number" id="serviceFee" class="readonly" readonly>
+            </div>
+
+            <div class="form-group">
+                <label id="processingFeeLabel" for="processingFee">Processing Fee (PF) - 1% (₱)</label>
+                <input type="number" id="processingFee" class="readonly" readonly>
+            </div>
+
+            <!-- Total Loan Calculation Section -->
+            <div class="total-loan">
+                <div class="form-group">
+                    <label class="total-loan-label">Total Deductions (SF + PF)</label>
+                    <input type="number" id="totalDeductions" class="readonly" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="total-loan-label">Total Loan Amount Received</label>
+                    <input type="number" id="totalLoan" class="readonly total-loan-value" readonly>
+                </div>
+            </div>
+
+            <!-- OR Section -->
+            <div class="or-section" id="orSection">
+                <div class="or-title">OFFICIAL RECEIPT (OR) DETAILS</div>
+                
+                <!-- Salary Loan OR Section -->
+                <div id="salaryOrSection">
+                    <div class="form-group loan-type-radio">
+                        <label>Loan Application Type</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="newLoan" name="loanApplicationType" value="new" checked>
+                                <label for="newLoan">New Loan</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="renewLoan" name="loanApplicationType" value="renew">
+                                <label for="renewLoan">Renewal</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="memberFee">Member Fee (₱)</label>
+                        <input type="number" id="memberFee" class="readonly" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shareCapital">Share Capital (SC) (₱)</label>
+                        <input type="number" id="shareCapital" class="readonly" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bayanihanSavings">Bayanihan Savings (BS) (₱)</label>
+                        <input type="number" id="bayanihanSavings" placeholder="Enter Bayanihan Savings amount">
+                    </div>
+                </div>
+                
+                <!-- Bonuses Loan OR Section -->
+                <div id="bonusesOrSection" style="display:none;">
+                    <div class="form-group">
+                        <label for="cbu">Capital Build-Up (CBU) (₱)</label>
+                        <input type="number" id="cbu" class="readonly" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interestFee">Interest (₱)</label>
+                        <input type="number" id="interestFee" class="readonly" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="total-loan-label">Total OR Amount (₱)</label>
+                    <input type="number" id="totalOrAmount" class="readonly total-loan-value" readonly>
+                </div>
+            </div>
+            
+            <!-- Take Home Section -->
+            <div class="take-home-section" id="takeHomeSection">
+                <div class="take-home-title">TAKE HOME AMOUNT</div>
+                <div class="form-group">
+                    <label class="total-loan-label">Total Loan Amount Received - Total OR Amount (₱)</label>
+                    <input type="number" id="takeHomeAmount" class="readonly take-home-value" readonly>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="cancel" onclick="window.history.back()">Cancel</button>
+                <button class="save" onclick="saveForm()">Save</button>
+                <button class="submit" onclick="submitForm()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get query parameters from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Toggle between Salary and Bonuses Loan sections
+        function toggleLoanType() {
+            const loanType = document.querySelector('input[name="loanType"]:checked').value;
+            const bonusesSection = document.getElementById('bonusesSection');
+            const salaryOrSection = document.getElementById('salaryOrSection');
+            const bonusesOrSection = document.getElementById('bonusesOrSection');
+            const loanAmountGroup = document.getElementById('loanAmountGroup');
+            const processingFeeLabel = document.getElementById('processingFeeLabel');
+            
+            if (loanType === 'bonuses') {
+                bonusesSection.style.display = 'block';
+                salaryOrSection.style.display = 'none';
+                bonusesOrSection.style.display = 'block';
+                loanAmountGroup.style.display = 'none';
+                processingFeeLabel.textContent = 'Processing Fee (PF) - 0% (₱)';
+                toggleBonusType(); // Update which bonus fields are shown
+            } else {
+                bonusesSection.style.display = 'none';
+                salaryOrSection.style.display = 'block';
+                bonusesOrSection.style.display = 'none';
+                loanAmountGroup.style.display = 'block';
+                processingFeeLabel.textContent = 'Processing Fee (PF) - 1% (₱)';
+            }
+            
+            calculateAll();
+        }
+        
+        // Toggle between Mid Year, Year End, and Both bonus types
+        function toggleBonusType() {
+            const bonusType = document.querySelector('input[name="bonusType"]:checked').value;
+            const midYearSection = document.getElementById('midYearSection');
+            const yearEndSection = document.getElementById('yearEndSection');
+            
+            if (bonusType === 'midYear') {
+                midYearSection.style.display = 'block';
+                yearEndSection.style.display = 'none';
+                document.getElementById('yearEndAmount').value = 0;
+            } else if (bonusType === 'yearEnd') {
+                midYearSection.style.display = 'none';
+                yearEndSection.style.display = 'block';
+                document.getElementById('midYearAmount').value = 0;
+            } else { // both
+                midYearSection.style.display = 'block';
+                yearEndSection.style.display = 'block';
+            }
+            
+            calculateBonusesDetails();
+        }
+
+        // Fetch loan details based on CB_NUMBER
+        async function fetchLoanDetails(cbNumber) {
+            if (!cbNumber) return;
+
+            try {
+                const response = await fetch(`/api/loan-details?cbNumber=${cbNumber}`);
+                const data = await response.json();
+
+                document.getElementById('cbNumber').value = cbNumber;
+                document.getElementById('previousBalance').value = data.previousBalance || 0;
+
+                if (data.loanType) {
+                    document.querySelector(`input[name="loanType"][value="${data.loanType}"]`).checked = true;
+                    toggleLoanType();
+                }
+
+                // Recalculate all values based on existing data
+                calculateAll();
+            } catch (error) {
+                console.error('Error fetching loan details:', error);
+            }
+        }
+
+        // Calculate Bonuses Loan details
+        function calculateBonusesDetails() {
+            const bonusType = document.querySelector('input[name="bonusType"]:checked').value;
+            const midYearAmount = parseFloat(document.getElementById('midYearAmount').value) || 0;
+            const yearEndAmount = parseFloat(document.getElementById('yearEndAmount').value) || 0;
+            
+            // Update total loan amount based on selected bonus types
+            let totalLoanAmount = 0;
+            if (bonusType === 'midYear') {
+                totalLoanAmount = midYearAmount;
+            } else if (bonusType === 'yearEnd') {
+                totalLoanAmount = yearEndAmount;
+            } else { // both
+                totalLoanAmount = midYearAmount + yearEndAmount;
+            }
+            
+            document.getElementById('loanAmount').value = totalLoanAmount.toFixed(2);
+            
+            // Calculate interest for mid year (24% annual rate prorated for 74 days)
+            const midYearAnnualInterest = midYearAmount * 0.24; // 24% annual rate
+            const midYearInterest = (midYearAnnualInterest * 74) / 360;
+            document.getElementById('midYearInterest').value = midYearInterest.toFixed(2);
+            
+            // Calculate interest for year end (24% annual rate prorated for 258 days)
+            const yearEndAnnualInterest = yearEndAmount * 0.24; // 24% annual rate
+            const yearEndInterest = (yearEndAnnualInterest * 258) / 360;
+            document.getElementById('yearEndInterest').value = yearEndInterest.toFixed(2);
+            
+            // Calculate total interest
+            const totalInterest = midYearInterest + yearEndInterest;
+            document.getElementById('totalInterest').value = totalInterest.toFixed(2);
+            
+            // Calculate CBU based on loan amount
+            const cbu = totalLoanAmount >= 50000 ? 1000 : 500;
+            document.getElementById('cbu').value = cbu.toFixed(2);
+            
+            // Set interest fee for OR (total interest)
+            document.getElementById('interestFee').value = totalInterest.toFixed(2);
+            
+            // Update loan amount and recalculate
+            calculateLoanDetails();
+        }
+
+        // Calculate OR details (Member Fee, Share Capital, etc.)
+        function calculateOrDetails() {
+            const loanType = document.querySelector('input[name="loanType"]:checked').value;
+            
+            if (loanType === 'salary') {
+                const loanApplicationType = document.querySelector('input[name="loanApplicationType"]:checked').value;
+                const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+                const previousBalance = parseFloat(document.getElementById('previousBalance').value) || 0;
+                
+                // Calculate Member Fee (500 for new loan, 0 for renewal)
+                const memberFee = loanApplicationType === 'new' ? 500 : 0;
+                document.getElementById('memberFee').value = memberFee.toFixed(2);
+                
+                // Calculate Share Capital (5% of principal for new loan, 3% of new balance for renewal)
+                let shareCapital;
+                if (loanApplicationType === 'new') {
+                    // New loan - 5% of principal amount
+                    shareCapital = loanAmount * 0.05;
+                } else {
+                    // Renewal - 3% of new balance (principal - previous balance)
+                    const newBalance = loanAmount - previousBalance;
+                    shareCapital = newBalance * 0.03;
+                }
+                document.getElementById('shareCapital').value = shareCapital.toFixed(2);
+                
+                // Get Bayanihan Savings (user input)
+                const bayanihanSavings = parseFloat(document.getElementById('bayanihanSavings').value) || 0;
+                
+                // Calculate Total OR Amount
+                const totalOrAmount = memberFee + shareCapital + bayanihanSavings;
+                document.getElementById('totalOrAmount').value = totalOrAmount.toFixed(2);
+            } else {
+                // For bonuses loan
+                const cbu = parseFloat(document.getElementById('cbu').value) || 0;
+                const interestFee = parseFloat(document.getElementById('interestFee').value) || 0;
+                
+                // Calculate Total OR Amount
+                const totalOrAmount = cbu + interestFee;
+                document.getElementById('totalOrAmount').value = totalOrAmount.toFixed(2);
+            }
+            
+            // Calculate Take Home Amount
+            calculateTakeHome();
+        }
+
+        // Calculate loan fees and balances
+        function calculateLoanDetails() {
+            const loanType = document.querySelector('input[name="loanType"]:checked').value;
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+            const previousBalance = parseFloat(document.getElementById('previousBalance').value) || 0;
+
+            const newBalance = loanAmount - previousBalance;
+            document.getElementById('newBalance').value = newBalance.toFixed(2);
+
+            const serviceFee = newBalance * 0.02;
+            document.getElementById('serviceFee').value = serviceFee.toFixed(2);
+
+            // Processing fee is 1% for salary loans, 0% for bonuses loans
+            const processingFeeRate = loanType === 'salary' ? 0.01 : 0;
+            const processingFee = newBalance * processingFeeRate;
+            document.getElementById('processingFee').value = processingFee.toFixed(2);
+
+            // Calculate total deductions and total loan
+            const totalDeductions = serviceFee + processingFee;
+            const totalLoan = newBalance - totalDeductions;
+            
+            document.getElementById('totalDeductions').value = totalDeductions.toFixed(2);
+            document.getElementById('totalLoan').value = totalLoan.toFixed(2);
+            
+            // Calculate OR details
+            calculateOrDetails();
+        }
+        
+        // Calculate Take Home Amount (Total Loan Amount Received - Total OR Amount)
+        function calculateTakeHome() {
+            const totalLoan = parseFloat(document.getElementById('totalLoan').value) || 0;
+            const totalOrAmount = parseFloat(document.getElementById('totalOrAmount').value) || 0;
+            
+            const takeHomeAmount = totalLoan - totalOrAmount;
+            document.getElementById('takeHomeAmount').value = takeHomeAmount.toFixed(2);
+        }
+
+        // Calculate all values
+        function calculateAll() {
+            const loanType = document.querySelector('input[name="loanType"]:checked').value;
+            
+            if (loanType === 'bonuses') {
+                calculateBonusesDetails();
+            } else {
+                calculateLoanDetails();
+            }
+        }
+
+        async function saveForm() {
+            calculateAll();
+            
+            // Prepare the form data
+            const loanType = document.querySelector('input[name="loanType"]:checked').value;
+            const formData = {
+                cbNumber: document.getElementById('cbNumber').value,
+                loanType: loanType,
+                loanAmount: parseFloat(document.getElementById('loanAmount').value) || 0,
+                previousBalance: parseFloat(document.getElementById('previousBalance').value) || 0,
+                newBalance: parseFloat(document.getElementById('newBalance').value) || 0,
+                serviceFee: parseFloat(document.getElementById('serviceFee').value) || 0,
+                processingFee: parseFloat(document.getElementById('processingFee').value) || 0,
+                totalDeductions: parseFloat(document.getElementById('totalDeductions').value) || 0,
+                totalLoanReceived: parseFloat(document.getElementById('totalLoan').value) || 0,
+                totalOrAmount: parseFloat(document.getElementById('totalOrAmount').value) || 0,
+                takeHomeAmount: parseFloat(document.getElementById('takeHomeAmount').value) || 0
+            };
+            
+            // Add specific fields based on loan type
+            if (loanType === 'salary') {
+                formData.applicationType = document.querySelector('input[name="loanApplicationType"]:checked').value;
+                formData.memberFee = parseFloat(document.getElementById('memberFee').value) || 0;
+                formData.shareCapital = parseFloat(document.getElementById('shareCapital').value) || 0;
+                formData.bayanihanSavings = parseFloat(document.getElementById('bayanihanSavings').value) || 0;
+            } else {
+                formData.bonusType = document.querySelector('input[name="bonusType"]:checked').value;
+                formData.midYearAmount = parseFloat(document.getElementById('midYearAmount').value) || 0;
+                formData.yearEndAmount = parseFloat(document.getElementById('yearEndAmount').value) || 0;
+                formData.midYearInterest = parseFloat(document.getElementById('midYearInterest').value) || 0;
+                formData.yearEndInterest = parseFloat(document.getElementById('yearEndInterest').value) || 0;
+                formData.totalInterest = parseFloat(document.getElementById('totalInterest').value) || 0;
+                formData.cbu = parseFloat(document.getElementById('cbu').value) || 0;
+                formData.interestFee = parseFloat(document.getElementById('interestFee').value) || 0;
+            }
+
+            // Validate required fields
+            if (!formData.cbNumber || isNaN(formData.loanAmount) || isNaN(formData.previousBalance)) {
+                alert('Please fill out all required fields (CB Number, Loan Amount, Previous Balance)');
+                return;
+            }
+
+            try {
+                const response = await fetch('/admin/save-salary-bonus-loan', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(result.message || 'Loan details saved successfully!');
+                } else {
+                    alert('Error: ' + (result.message || 'Failed to save loan'));
+                }
+            } catch (error) {
+                console.error('Error saving loan:', error);
+                alert('Failed to save loan. Please check console for details.');
+            }
+        }
+        
+        // Validate and submit the form
+        function submitForm() {
+            const loanType = document.querySelector('input[name="loanType"]:checked').value;
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+            const previousBalance = parseFloat(document.getElementById('previousBalance').value) || 0;
+            
+            // Validate fields based on loan type
+            if (loanType === 'salary' && !document.getElementById('bayanihanSavings').value) {
+                alert('Please enter Bayanihan Savings amount.');
+                return;
+            }
+            
+            if (loanType === 'bonuses') {
+                const bonusType = document.querySelector('input[name="bonusType"]:checked').value;
+                const midYearAmount = parseFloat(document.getElementById('midYearAmount').value) || 0;
+                const yearEndAmount = parseFloat(document.getElementById('yearEndAmount').value) || 0;
+                
+                if ((bonusType === 'midYear' && midYearAmount <= 0) || 
+                    (bonusType === 'yearEnd' && yearEndAmount <= 0) || 
+                    (bonusType === 'both' && (midYearAmount <= 0 || yearEndAmount <= 0))) {
+                    alert('Please enter valid bonus amounts.');
+                    return;
+                }
+            }
+            
+            if (loanAmount <= 0 || previousBalance < 0) {
+                alert('Please fill out all required fields with valid values.');
+                return;
+            }
+
+            // Prepare form data for submission
+            const formData = {
+                cbNumber: document.getElementById('cbNumber').value,
+                loanType: loanType,
+                loanAmount: loanAmount,
+                previousBalance: previousBalance,
+                newBalance: parseFloat(document.getElementById('newBalance').value) || 0,
+                serviceFee: parseFloat(document.getElementById('serviceFee').value) || 0,
+                processingFee: parseFloat(document.getElementById('processingFee').value) || 0,
+                totalDeductions: parseFloat(document.getElementById('totalDeductions').value) || 0,
+                totalLoan: parseFloat(document.getElementById('totalLoan').value) || 0,
+                totalOrAmount: parseFloat(document.getElementById('totalOrAmount').value) || 0,
+                takeHomeAmount: parseFloat(document.getElementById('takeHomeAmount').value) || 0
+            };
+            
+            // Add specific fields based on loan type
+            if (loanType === 'salary') {
+                formData.loanApplicationType = document.querySelector('input[name="loanApplicationType"]:checked').value;
+                formData.memberFee = parseFloat(document.getElementById('memberFee').value) || 0;
+                formData.shareCapital = parseFloat(document.getElementById('shareCapital').value) || 0;
+                formData.bayanihanSavings = parseFloat(document.getElementById('bayanihanSavings').value) || 0;
+            } else {
+                formData.bonusType = document.querySelector('input[name="bonusType"]:checked').value;
+                formData.midYearAmount = parseFloat(document.getElementById('midYearAmount').value) || 0;
+                formData.yearEndAmount = parseFloat(document.getElementById('yearEndAmount').value) || 0;
+                formData.midYearInterest = parseFloat(document.getElementById('midYearInterest').value) || 0;
+                formData.yearEndInterest = parseFloat(document.getElementById('yearEndInterest').value) || 0;
+                formData.totalInterest = parseFloat(document.getElementById('totalInterest').value) || 0;
+                formData.cbu = parseFloat(document.getElementById('cbu').value) || 0;
+                formData.interestFee = parseFloat(document.getElementById('interestFee').value) || 0;
+            }
+
+            // Send data to the server
+            fetch('/api/submit-loan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Loan application submitted successfully!');
+                window.location.href = '/admin/dashboard';
+            })
+            .catch(error => {
+                console.error('Error submitting loan application:', error);
+                alert('An error occurred while submitting the form.');
+            });
+        }
+
+        // On page load, initialize form with data from server
+        window.onload = () => {
+            // If we already have loan data from the server, no need to fetch again
+            const cbNumber = document.getElementById('cbNumber').value;
+            
+            if (cbNumber) {
+                // Calculate all values based on existing data
+                toggleLoanType();
+                calculateAll();
+            } else {
+                // If no CB Number in the form yet, try to get it from URL
+                const urlCbNumber = getQueryParam('cbNumber');
+                if (urlCbNumber) {
+                    // This will only run if the form wasn't pre-populated by the server
+                    fetchLoanDetails(urlCbNumber);
+                }
+            }
+        };
+
+        // Attach event listeners to recalculate when inputs change
+        document.getElementById('loanAmount').addEventListener('input', calculateAll);
+        document.getElementById('previousBalance').addEventListener('input', calculateAll);
+        document.getElementById('bayanihanSavings').addEventListener('input', calculateOrDetails);
+        
+        // Add listeners for loan application type radio buttons
+        document.querySelectorAll('input[name="loanApplicationType"]').forEach(radio => {
+            radio.addEventListener('change', calculateOrDetails);
+        });
+        
+        // Add listeners for loan type radio buttons
+        document.querySelectorAll('input[name="loanType"]').forEach(radio => {
+            radio.addEventListener('change', toggleLoanType);
+        });
+        
+        // Add listeners for bonus type radio buttons
+        document.querySelectorAll('input[name="bonusType"]').forEach(radio => {
+            radio.addEventListener('change', toggleBonusType);
+        });
+        
+        // Add listeners for bonuses loan amounts
+        document.getElementById('midYearAmount').addEventListener('input', calculateBonusesDetails);
+        document.getElementById('yearEndAmount').addEventListener('input', calculateBonusesDetails);
+    </script>
+</body>
+</html>

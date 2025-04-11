@@ -1,0 +1,223 @@
+<%- include('../partials/membersidebar') %>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main-content {
+        padding: 20px;
+        margin-left: 280px; /* Adjust based on sidebar width */
+    }
+
+    .card {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .card h1 {
+        color: #333333;
+        margin-bottom: 15px;
+        font-size: 24px;
+    }
+
+    .card h2 {
+        color: #333333;
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+
+    .card p {
+        color: #e2d117;
+        font-size: 16px;
+    }
+
+    .stats-container {
+        display: flex;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .stat-card {
+        background: #007bff;
+        color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        flex: 1;
+        text-align: center;
+    }
+
+    .stat-card h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .stat-card p {
+        margin: 5px 0 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .recent-activity {
+        margin-top: 30px;
+    }
+
+    .recent-activity h3 {
+        color: #333333;
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+
+    .activity-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .activity-list li {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .activity-list li span {
+        color: #666666;
+        font-size: 14px;
+    }
+
+    .payment-options {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .payment-options button {
+        background: #28a745;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .payment-options button:hover {
+        background: #218838;
+    }
+
+    .price-payments {
+        margin-top: 20px;
+    }
+
+    .price-payments h3 {
+        color: #333333;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .price-payments ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .price-payments ul li {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+</style>
+<div class="main-content">
+    <div class="card" id="dashboard">
+        <h1>Welcome, <%= user.username %>!</h1>
+        <p>CB Number: <%= user.cb_number %></p>
+
+        <!-- Payment Breakdown Section -->
+        <div class="card">
+            <h2>Payment Breakdown</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Total Amount</h3>
+                    <p>$ 177,500</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Interest</h3>
+                    <p>35.5%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Principal</h3>
+                    <p>64.5%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loan Amount Due Section -->
+        <div class="card">
+            <h2>Loan Amount Due</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Total Due</h3>
+                    <p>$ 981,025</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Paid</h3>
+                    <p>$ 500,000</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Remaining</h3>
+                    <p>$ 481,025</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Make a Payment Section -->
+        <div class="card">
+            <h2>Make a Payment</h2>
+            <div class="payment-options">
+                <button>Net Banking</button>
+                <button>Credit Card</button>
+                <button>Debit Card</button>
+            </div>
+        </div>
+
+        <!-- Price Payments Section -->
+        <div class="card">
+            <h2>Price Payments</h2>
+            <div class="price-payments">
+                <h3>Quarterly Payments</h3>
+                <ul>
+                    <li>Q1</li>
+                    <li>Q2</li>
+                    <li>Q3</li>
+                </ul>
+            </div>
+            <div class="price-payments">
+                <h3>Payment Details</h3>
+                <ul>
+                    <li>Interest</li>
+                    <li>Principal Amount</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showSection(sectionId) {
+        document.querySelectorAll('.card').forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    function toggleDropdown(dropdownId) {
+        let dropdown = document.getElementById(dropdownId);
+        dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    }
+</script>

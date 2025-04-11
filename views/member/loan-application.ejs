@@ -1,0 +1,103 @@
+<%- include('../partials/membersidebar') %>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-left: 250px; /* Adjust this value based on the sidebar width */
+}
+
+.loan-container {
+    background-color: #fff;
+    padding: 100px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;
+    margin-left: 20px;
+}
+
+.loan-container h1 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    color: #1d3557;
+}
+
+.loan-container p {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.loan-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.loan-button {
+    background-color: #457b9d;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.loan-button:hover {
+    background-color: #1d3557;
+}
+
+.loan-button i {
+    font-size: 20px;
+}
+</style>
+
+<body>
+    <div class="loan-container">
+        <h1>Loan Application</h1>
+        <p>Select the type of loan you want to apply for:</p>
+
+        <div class="loan-buttons">
+            <!-- Salary Loan Button -->
+            <button class="loan-button" id="salaryLoanBtn">
+                <i class="fa-solid fa-money-bill"></i>
+                <span>Salary/Bonuses Loan</span>
+            </button>
+
+            <!-- Regular/Agricultural Loan Button -->
+            <button class="loan-button" id="regularLoanBtn">
+                <i class="fa-solid fa-tractor"></i>
+                <span>Regular/Agricultural Loan</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("regularLoanBtn").addEventListener("click", function() {
+            window.location.href = "/member/loan-regular";
+        });
+
+        document.getElementById("salaryLoanBtn").addEventListener("click", function() {
+            window.location.href = "/member/loan-salary"; // Update kung may salary loan route ka
+        });
+
+    </script>
+</body>

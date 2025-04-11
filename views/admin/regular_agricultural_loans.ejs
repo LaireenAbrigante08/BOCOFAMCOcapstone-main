@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regular Agricultural Loans | BOCOFAMCO Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 12px 12px 45px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background-color: white;
+            font-size: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+        
+        .loans-table-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .loans-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .loans-table th {
+            background-color: #f9fafb;
+            color: #1e3a8a;
+            font-weight: 600;
+            text-align: left;
+            padding: 15px 20px;
+            border-bottom: 2px solid #e5e7eb;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .loans-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        
+        .loans-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .loans-table tr:hover td {
+            background-color: #f9fafb;
+        }
+        
+        .cb-number {
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .view-btn {
+            color: #1e3a8a;
+        }
+        
+        .view-btn:hover {
+            background-color: rgba(30, 58, 138, 0.1);
+        }
+        
+        .edit-btn {
+            color: #047857;
+        }
+        
+        .edit-btn:hover {
+            background-color: rgba(4, 120, 87, 0.1);
+        }
+        
+        .delete-btn {
+            color: #dc2626;
+        }
+        
+        .delete-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .pagination-btn {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination-btn:hover {
+            background-color: #f9fafb;
+        }
+        
+        .pagination-btn.active {
+            background-color: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+        
+        .pagination-text {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-container {
+                max-width: 100%;
+            }
+            
+            .loans-table th, 
+            .loans-table td {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <% const currentPage = 'regular-agricultural-loans'; %>
+    <%- include('../partials/adminsidebar', { currentPage }) %>
+    
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Regular/Agricultural Loans</h1>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search loans...">
+            </div>
+        </div>
+        
+        <div class="loans-table-container">
+            <div class="table-responsive">
+                <table class="loans-table">
+                    <thead>
+                        <tr>
+                            <th>CB Number</th>
+                            <th>Application No</th>
+                            <th>Application Date</th>
+                            <th>Spouse Name</th>
+                            <th>Member Address</th>
+                            <th>Contact Number</th>
+                            <th>Account Number</th>
+                            <th>Coop ID Number</th>
+                            <th>Loan Type</th>
+                            <th>Loan Amount</th>
+                            <th>Annual Income</th>
+                            <th>Income Source</th>
+                            <th>Collateral</th>
+                            <th>Loan Purpose</th>
+                            <th>Paid-up Capital</th>
+                            <th>Previous Loan Amount</th>
+                            <th>Outstanding Balance</th>
+                            <th>CBU Status</th>
+                            <th>Borrower Type</th>
+                            <th>Loan Status</th>
+                            <th>Application Status</th>
+                            <th>Date Created</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="loansTableBody">
+                        <% loans.forEach(loan => { %>
+                            <tr>
+                                <td class="cb-number"><%= loan.cb_number %></td>
+                                <td><%= loan.application_no %></td>
+                                <td><%= new Date(loan.application_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                                <td><%= loan.spouse_name %></td>
+                                <td><%= loan.member_address %></td>
+                                <td><%= loan.contact_number %></td>
+                                <td><%= loan.account_number %></td>
+                                <td><%= loan.coop_id_number %></td>
+                                <td><%= loan.loan_type %></td>
+                                <td><%= loan.loan_amount.toLocaleString() %></td>
+                                <td><%= loan.annual_income.toLocaleString() %></td>
+                                <td><%= loan.income_source %></td>
+                                <td><%= loan.collateral %></td>
+                                <td><%= loan.loan_purpose %></td>
+                                <td><%= loan.paid_up_capital.toLocaleString() %></td>
+                                <td><%= loan.previous_loan_amount.toLocaleString() %></td>
+                                <td><%= loan.outstanding_balance.toLocaleString() %></td>
+                                <td><%= loan.cbu_status %></td>
+                                <td><%= loan.borrower_type %></td>
+                                <td><%= loan.loan_status %></td>
+                                <td><%= loan.application_status %></td>
+                                <td><%= new Date(loan.date_created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                                <td><%= new Date(loan.last_updated).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view-btn" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="action-btn edit-btn" title="Computation Loan" onclick="redirectToLoanPage('<%= loan.cb_number %>')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>                                        
+                                        <button class="action-btn delete-btn" title="Delete Loan">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="pagination">
+            <span class="pagination-text">Showing 1-10 of <span id="totalEntries">100</span> entries</span>
+            <div class="pagination-controls">
+                <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function redirectToLoanPage(cbNumber) {
+        if (!cbNumber) {
+            alert('Error: Missing CB Number');
+            return;
+        }
+        window.location.href = `/admin/loan-regular?cbNumber=` + encodeURIComponent(cbNumber);
+    }
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#loansTableBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const isVisible = text.includes(searchTerm);
+                row.style.display = isVisible ? '' : 'none';
+                if (isVisible) visibleCount++;
+            });
+            
+            // Update the pagination text
+            document.getElementById('totalEntries').textContent = visibleCount;
+        });
+        
+        // Initialize total entries count
+        document.getElementById('totalEntries').textContent = document.querySelectorAll('#loansTableBody tr').length;
+    </script>
+</body>
+</html>

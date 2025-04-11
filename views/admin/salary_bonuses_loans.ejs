@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Bonuses Loans | BOCOFAMCO Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 12px 12px 45px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background-color: white;
+            font-size: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+        
+        .loans-table-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .loans-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .loans-table th {
+            background-color: #f9fafb;
+            color: #1e3a8a;
+            font-weight: 600;
+            text-align: left;
+            padding: 15px 20px;
+            border-bottom: 2px solid #e5e7eb;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .loans-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        
+        .loans-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .loans-table tr:hover td {
+            background-color: #f9fafb;
+        }
+        
+        .cb-number {
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .view-btn {
+            color: #1e3a8a;
+        }
+        
+        .view-btn:hover {
+            background-color: rgba(30, 58, 138, 0.1);
+        }
+        
+        .edit-btn {
+            color: #047857;
+        }
+        
+        .edit-btn:hover {
+            background-color: rgba(4, 120, 87, 0.1);
+        }
+        
+        .delete-btn {
+            color: #dc2626;
+        }
+        
+        .delete-btn:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .pagination-btn {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination-btn:hover {
+            background-color: #f9fafb;
+        }
+        
+        .pagination-btn.active {
+            background-color: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+        
+        .pagination-text {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .empty-state {
+            padding: 40px;
+            text-align: center;
+            color: #6b7280;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-approved {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-rejected {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-container {
+                max-width: 100%;
+            }
+            
+            .loans-table th, 
+            .loans-table td {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <% const currentPage = 'salary-bonuses-loans'; %>
+    <%- include('../partials/adminsidebar', { currentPage }) %>
+    
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Salary Bonuses Loans</h1>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search loans...">
+            </div>
+        </div>
+        
+        <div class="loans-table-container">
+            <div class="table-responsive">
+                <table class="loans-table">
+                    <thead>
+                        <tr>
+                            <th>CB Number</th>
+                            <th>Application No</th>
+                            <th>Application Date</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Middle Initial</th>
+                            <th>Municipality</th>
+                            <th>Position</th>
+                            <th>Length of Service</th>
+                            <th>Age</th>
+                            <th>Address</th>
+                            <th>Office/Agency</th>
+                            <th>Basic Salary</th>
+                            <th>Net Take-Home Pay</th>
+                            <th>Spouse Name</th>
+                            <th>Contact No</th>
+                            <th>Loan Type</th>
+                            <th>Loan Amount</th>
+                            <th>Application Status</th>
+                            <th>Date Created</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="loansTableBody">
+                        <% if (loans.length > 0) { %>
+                            <% loans.forEach(loan => { %>
+                                <tr>
+                                    <td class="cb-number"><%= loan.cb_number %></td>
+                                    <td><%= loan.application_no %></td>
+                                    <td><%= new Date(loan.application_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                                    <td><%= loan.last_name %></td>
+                                    <td><%= loan.first_name %></td>
+                                    <td><%= loan.middle_initial %></td>
+                                    <td><%= loan.municipality %></td>
+                                    <td><%= loan.position %></td>
+                                    <td><%= loan.length_of_service %></td>
+                                    <td><%= loan.age %></td>
+                                    <td><%= loan.address %></td>
+                                    <td><%= loan.office_agency %></td>
+                                    <td>₱<%= parseFloat(loan.basic_monthly_salary).toLocaleString() %></td>
+                                    <td>₱<%= parseFloat(loan.net_take_home_pay).toLocaleString() %></td>
+                                    <td><%= loan.spouse_name %></td>
+                                    <td><%= loan.contact_no %></td>
+                                    <td><%= loan.loan_type %></td>
+                                    <td>₱<%= parseFloat(loan.loan_amount).toLocaleString() %></td>
+                                    <td>
+                                        <% let statusClass = ''; %>
+                                        <% if (loan.application_status.toLowerCase() === 'approved') { %>
+                                            <% statusClass = 'status-approved'; %>
+                                        <% } else if (loan.application_status.toLowerCase() === 'pending') { %>
+                                            <% statusClass = 'status-pending'; %>
+                                        <% } else if (loan.application_status.toLowerCase() === 'rejected') { %>
+                                            <% statusClass = 'status-rejected'; %>
+                                        <% } %>
+                                        <span class="status-badge <%= statusClass %>"><%= loan.application_status %></span>
+                                    </td>
+                                    <td><%= new Date(loan.date_created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                                    <td><%= new Date(loan.last_updated).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Edit Loan" onclick="window.location.href='/admin/loan-salary_bonuses?cbNumber=<%= loan.cb_number %>'">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Delete Loan">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="22" class="empty-state">
+                                    <div>
+                                        <i class="fas fa-folder-open fa-3x mb-3" style="margin-bottom: 15px; color: #d1d5db;"></i>
+                                        <p>No loans found.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <% if (loans.length > 0) { %>
+            <div class="pagination">
+                <span class="pagination-text">Showing 1-<span id="visibleCount"><%= loans.length %></span> of <span id="totalEntries"><%= loans.length %></span> entries</span>
+                <div class="pagination-controls">
+                    <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#loansTableBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const isVisible = text.includes(searchTerm);
+                row.style.display = isVisible ? '' : 'none';
+                if (isVisible) visibleCount++;
+            });
+            
+            // Update the pagination text if it exists
+            const visibleCountElement = document.getElementById('visibleCount');
+            if (visibleCountElement) {
+                visibleCountElement.textContent = visibleCount;
+            }
+        });
+    </script>
+</body>
+</html>

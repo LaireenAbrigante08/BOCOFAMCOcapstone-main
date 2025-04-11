@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooperative Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --primary-dark: #1e40af;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --purple: #8b5cf6;
+            --purple-light: #ede9fe;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+            --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --card-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: var(--gray-100);
+            color: var(--gray-800);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 0;
+            transition: var(--transition);
+        }
+        
+        .dashboard-header {
+            background-color: white;
+            padding: 20px 30px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-height);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            background-color: var(--gray-50);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .header-action {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--gray-50);
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .header-action:hover {
+            background-color: var(--gray-200);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .user-profile:hover {
+            background-color: var(--gray-100);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .user-info {
+            display: none;
+        }
+        
+        .user-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .user-info p {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+        
+        .dashboard-content {
+            padding: 30px;
+        }
+        
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+        
+        .welcome-section h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+        
+        .welcome-section p {
+            color: var(--gray-600);
+            font-size: 15px;
+        }
+        
+        .date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--gray-300);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-card.loan::before { background-color: var(--warning); }
+        .stat-card.member::before { background-color: var(--success); }
+        .stat-card.rental::before { background-color: var(--primary); }
+        .stat-card.savings::before { background-color: var(--purple); }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .stat-title {
+            font-size: 15px;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loan-icon { background-color: var(--warning-light); color: var(--warning); }
+        .member-icon { background-color: var(--success-light); color: var(--success); }
+        .rental-icon { background-color: var(--primary-light); color: var(--primary); }
+        .savings-icon { background-color: var(--purple-light); color: var(--purple); }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+        
+        .stat-description {
+            font-size: 14px;
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .trend-up {
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-weight: 500;
+        }
+        
+        .trend-down {
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-weight: 500;
+        }
+        
+        .dashboard-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: var(--primary);
+        }
+        
+        .view-all {
+            font-size: 13px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+        
+        .view-all:hover {
+            color: var(--primary-dark);
+        }
+        
+        .loan-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .loan-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .loan-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        
+        .loan-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .loan-table tr:hover {
+            background-color: var(--gray-50);
+        }
+        
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .member-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .member-name {
+            font-weight: 500;
+            color: var(--gray-800);
+        }
+        
+        .loan-amount {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-active { 
+            background-color: var(--success-light); 
+            color: var(--success); 
+        }
+        
+        .status-pending { 
+            background-color: var(--warning-light); 
+            color: var(--warning); 
+        }
+        
+        .status-overdue { 
+            background-color: var(--danger-light); 
+            color: var(--danger); 
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: var(--gray-50);
+            transition: var(--transition);
+        }
+        
+        .activity-item:hover {
+            background-color: white;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .activity-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-details h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--gray-800);
+        }
+        
+        .activity-details p {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: var(--gray-500);
+            background-color: var(--gray-100);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .chart-container {
+            margin-top: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .chart-filters {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chart-filter {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            background-color: var(--gray-100);
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .chart-filter.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .chart-filter:hover:not(.active) {
+            background-color: var(--gray-200);
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background-color: var(--gray-50);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            font-size: 14px;
+        }
+        
+        .quick-actions {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary-light);
+        }
+        
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        
+        .action-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .action-description {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+        
+        @media (min-width: 1024px) {
+            .user-info {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .dashboard-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .search-bar {
+                width: 200px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                transition: var(--transition);
+                position: fixed;
+                z-index: 100;
+                height: 100vh;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .search-bar {
+                display: none;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .dashboard-content {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header {
+                padding: 15px;
+            }
+            
+            .header-right {
+                gap: 10px;
+            }
+            
+            .header-action {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .user-avatar {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 20px;
+            }
+            
+            .section-card {
+                padding: 20px;
+            }
+            
+            .loan-table th, .loan-table td {
+                padding: 10px;
+            }
+            
+            .loan-table th:nth-child(3), .loan-table td:nth-child(3),
+            .loan-table th:nth-child(4), .loan-table td:nth-child(4) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <%- include('../partials/adminsidebar') %>
+        
+        <div class="main-content">
+            <div class="dashboard-header">
+                <div class="header-left">
+                    <button class="mobile-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="header-action">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="header-action">
+                        <i class="fas fa-envelope"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <h4>Admin User</h4>
+                            <p>System Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="welcome-section">
+                    <h1>Welcome to Cooperative Admin</h1>
+                    <p>Monitor and manage your cooperative's operations efficiently</p>
+                    <div class="date-badge">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card loan">
+                        <div class="stat-header">
+                            <div class="stat-title">Active Loans</div>
+                            <div class="stat-icon loan-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">₱2.4M</div>
+                        <div class="stat-description">
+                            <span>42 active loans</span>
+                            <span class="trend-up"><i class="fas fa-arrow-up"></i> 8%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card member">
+                        <div class="stat-header">
+                            <div class="stat-title">Total Members</div>
+                            <div class="stat-icon member-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">328</div>
+                        <div class="stat-description">
+                            <span>+12 this month</span>
+                            <span class="trend-up"><i class="fas fa-arrow-up"></i> 3.8%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card rental">
+                        <div class="stat-header">
+                            <div class="stat-title">Rental Properties</div>
+                            <div class="stat-icon rental-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">18</div>
+                        <div class="stat-description">
+                            <span>85% occupancy rate</span>
+                            <span class="trend-up"><i class="fas fa-arrow-up"></i> 5%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card savings">
+                        <div class="stat-header">
+                            <div class="stat-title">Total Savings</div>
+                            <div class="stat-icon savings-icon">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">₱5.8M</div>
+                        <div class="stat-description">
+                            <span>+₱320K this month</span>
+                            <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.8%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-sections">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                Recent Loan Applications
+                            </div>
+                            <a href="/admin/loans" class="view-all">
+                                View All <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        
+                        <table class="loan-table">
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Loan Type</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="member-info">
+                                            <div class="member-avatar">MS</div>
+                                            <span class="member-name">Maria Santos</span>
+                                        </div>
+                                    </td>
+                                    <td>Business Loan</td>
+                                    <td><span class="loan-amount">₱75,000</span></td>
+                                    <td>Mar 2, 2025</td>
+                                    <td><span class="status status-active"><i class="fas fa-check-circle"></i> Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="member-info">
+                                            <div class="member-avatar">JD</div>
+                                            <span class="member-name">Juan Dela Cruz</span>
+                                        </div>
+                                    </td>
+                                    <td>Agricultural Loan</td>
+                                    <td><span class="loan-amount">₱120,000</span></td>
+                                    <td>Mar 1, 2025</td>
+                                    <td><span class="status status-pending"><i class="fas fa-clock"></i> Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="member-info">
+                                            <div class="member-avatar">AR</div>
+                                            <span class="member-name">Ana Reyes</span>
+                                        </div>
+                                    </td>
+                                    <td>Emergency Loan</td>
+                                    <td><span class="loan-amount">₱25,000</span></td>
+                                    <td>Feb 28, 2025</td>
+                                    <td><span class="status status-active"><i class="fas fa-check-circle"></i> Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="member-info">
+                                            <div class="member-avatar">PL</div>
+                                            <span class="member-name">Pedro Lim</span>
+                                        </div>
+                                    </td>
+                                    <td>Housing Loan</td>
+                                    <td><span class="loan-amount">₱350,000</span></td>
+                                    <td>Feb 25, 2025</td>
+                                    <td><span class="status status-pending"><i class="fas fa-clock"></i> Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="member-info">
+                                            <div class="member-avatar">EG</div>
+                                            <span class="member-name">Elena Garcia</span>
+                                        </div>
+                                    </td>
+                                    <td>Business Loan</td>
+                                    <td><span class="loan-amount">₱50,000</span></td>
+                                    <td>Feb 20, 2025</td>
+                                    <td><span class="status status-overdue"><i class="fas fa-exclamation-circle"></i> Overdue</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-history"></i>
+                                Recent Activities
+                            </div>
+                        </div>
+                        
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: var(--success-light); color: var(--success);">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>New Loan Approved</h4>
+                                    <p>Maria Santos - ₱75,000</p>
+                                </div>
+                                <div class="activity-time">2h ago</div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: var(--primary-light); color: var(--primary);">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>New Member Registered</h4>
+                                    <p>Roberto Aquino joined the cooperative</p>
+                                </div>
+                                <div class="activity-time">5h ago</div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: var(--purple-light); color: var(--purple);">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>Rental Payment Received</h4>
+                                    <p>Unit 3B - ₱12,500 monthly rent</p>
+                                </div>
+                                <div class="activity-time">Yesterday</div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: var(--warning-light); color: var(--warning);">
+                                    <i class="fas fa-piggy-bank"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>Savings Deposit</h4>
+                                    <p>Juan Dela Cruz - ₱15,000</p>
+                                </div>
+                                <div class="activity-time">Yesterday</div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: var(--danger-light); color: var(--danger);">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>Loan Payment Overdue</h4>
+                                    <p>Elena Garcia - ₱5,000 payment due</p>
+                                </div>
+                                <div class="activity-time">2 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">Loan Performance Overview</div>
+                        <div class="chart-filters">
+                            <div class="chart-filter active">Monthly</div>
+                            <div class="chart-filter">Quarterly</div>
+                            <div class="chart-filter">Yearly</div>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-line"></i> Chart will be displayed here
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div class="action-title">New Loan</div>
+                        <div class="action-description">Process a new loan application</div>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="action-title">Add Member</div>
+                        <div class="action-description">Register a new cooperative member</div>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="action-title">Generate Report</div>
+                        <div class="action-description">Create financial reports</div>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="action-title">Settings</div>
+                        <div class="action-description">Configure system parameters</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add current date to the dashboard
+        const dateElement = document.getElementById('current-date');
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateElement.textContent = new Date().toLocaleDateString('en-US', options);
+        
+        // For mobile toggle functionality
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        }
+        
+        // Add event listeners for chart filters
+        const chartFilters = document.querySelectorAll('.chart-filter');
+        chartFilters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                chartFilters.forEach(f => f.classList.remove('active'));
+                filter.classList.add('active');
+                // Here you would update the chart data based on the selected filter
+            });
+        });
+    </script>
+</body>
+</html>

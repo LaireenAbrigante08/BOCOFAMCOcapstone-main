@@ -1,0 +1,2056 @@
+<%- include('../partials/adminsidebar') %>
+
+<div class="form-page">
+  <div class="form-container">
+    <div class="form-header">
+      <h1>BOCOFAMCO ID Form</h1>
+      <p class="form-subtitle">Please fill out all required information</p>
+    </div>
+
+    <% if (error) { %>
+      <div class="alert alert-danger">
+        <i class="alert-icon" data-lucide="alert-circle"></i>
+        <p><%= error %></p>
+      </div>
+    <% } %>
+
+    <form id="registrationForm" action="/admin/register" method="POST">
+      <!-- Personal Information Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Personal Information</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cb_number">CB Number <span class="required">*</span></label>
+            <input type="text" id="cb_number" name="cb_number" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="date_issued">Date Issued <span class="required">*</span></label>
+            <input type="date" id="date_issued" name="date_issued" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first_name">First Name <span class="required">*</span></label>
+            <input type="text" id="first_name" name="first_name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="middle_name">Middle Name</label>
+            <input type="text" id="middle_name" name="middle_name">
+          </div>
+          
+          <div class="form-group">
+            <label for="last_name">Last Name <span class="required">*</span></label>
+            <input type="text" id="last_name" name="last_name" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nickname">Nickname</label>
+            <input type="text" id="nickname" name="nickname">
+          </div>
+          
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender">
+              <option value="">-- Select Gender --</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="civil_status">Civil Status</label>
+            <input type="text" id="civil_status" name="civil_status">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="dob">Date of Birth <span class="required">*</span></label>
+            <input type="date" id="dob" name="dob" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age">
+          </div>
+          
+          <div class="form-group">
+            <label for="place_of_birth">Place of Birth</label>
+            <input type="text" id="place_of_birth" name="place_of_birth">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group form-group-full">
+            <label for="address">Address <span class="required">*</span></label>
+            <textarea id="address" name="address" required></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nationality">Nationality</label>
+            <input type="text" id="nationality" name="nationality">
+          </div>
+          
+          <div class="form-group">
+            <label for="religion">Religion</label>
+            <input type="text" id="religion" name="religion">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+          </div>
+          
+          <div class="form-group">
+            <label for="contact_number">Contact Number</label>
+            <input type="text" id="contact_number" name="contact_number" pattern="[0-9]{10,}" title="Enter a valid 10-digit number">
+          </div>
+        </div>
+      </div>
+
+      <!-- Family Information Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Family Information</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="spouse_name">Spouse Name</label>
+            <input type="text" id="spouse_name" name="spouse_name">
+          </div>
+          
+          <div class="form-group">
+            <label for="spouse_age">Spouse Age</label>
+            <input type="number" id="spouse_age" name="spouse_age">
+          </div>
+          
+          <div class="form-group">
+            <label for="spouse_occupation">Spouse Occupation</label>
+            <input type="text" id="spouse_occupation" name="spouse_occupation">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="father_name">Father's Name</label>
+            <input type="text" id="father_name" name="father_name">
+          </div>
+          
+          <div class="form-group">
+            <label for="mother_name">Mother's Name</label>
+            <input type="text" id="mother_name" name="mother_name">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group form-group-full">
+            <label for="parent_address">Parent's Address</label>
+            <textarea id="parent_address" name="parent_address"></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="number_of_children">Number of Children</label>
+            <input type="number" id="number_of_children" name="number_of_children">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group form-group-full">
+            <label for="children_info">Children Information</label>
+            <textarea id="children_info" name="children_info" placeholder="Names, ages, and other relevant information"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Educational Background Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Educational Background</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="educational_attainment">Educational Attainment</label>
+            <input type="text" id="educational_attainment" name="educational_attainment">
+          </div>
+        </div>
+
+        <div class="education-subsection">
+          <h3>Elementary</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="elementary_school">School Name</label>
+              <input type="text" id="elementary_school" name="elementary_school">
+            </div>
+            
+            <div class="form-group">
+              <label for="elementary_address">School Address</label>
+              <input type="text" id="elementary_address" name="elementary_address">
+            </div>
+            
+            <div class="form-group">
+              <label for="elementary_year_graduated">Year Graduated</label>
+              <input type="text" id="elementary_year_graduated" name="elementary_year_graduated">
+            </div>
+          </div>
+        </div>
+
+        <div class="education-subsection">
+          <h3>Secondary</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="secondary_school">School Name</label>
+              <input type="text" id="secondary_school" name="secondary_school">
+            </div>
+            
+            <div class="form-group">
+              <label for="secondary_address">School Address</label>
+              <input type="text" id="secondary_address" name="secondary_address">
+            </div>
+            
+            <div class="form-group">
+              <label for="secondary_year_graduated">Year Graduated</label>
+              <input type="text" id="secondary_year_graduated" name="secondary_year_graduated">
+            </div>
+          </div>
+        </div>
+
+        <div class="education-subsection">
+          <h3>College</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="college_school">School Name</label>
+              <input type="text" id="college_school" name="college_school">
+            </div>
+            
+            <div class="form-group">
+              <label for="college_address">School Address</label>
+              <input type="text" id="college_address" name="college_address">
+            </div>
+            
+            <div class="form-group">
+              <label for="college_year_graduated">Year Graduated</label>
+              <input type="text" id="college_year_graduated" name="college_year_graduated">
+            </div>
+          </div>
+        </div>
+
+        <div class="education-subsection">
+          <h3>Vocational</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="vocational_school">School Name</label>
+              <input type="text" id="vocational_school" name="vocational_school">
+            </div>
+            
+            <div class="form-group">
+              <label for="vocational_address">School Address</label>
+              <input type="text" id="vocational_address" name="vocational_address">
+            </div>
+            
+            <div class="form-group">
+              <label for="vocational_year_graduated">Year Graduated</label>
+              <input type="text" id="vocational_year_graduated" name="vocational_year_graduated">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Occupation & Income Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Occupation & Income</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="occupation">Occupation</label>
+            <input type="text" id="occupation" name="occupation">
+          </div>
+          
+          <div class="form-group">
+            <label for="other_income">Other Income</label>
+            <input type="text" id="other_income" name="other_income">
+          </div>
+          
+          <div class="form-group">
+            <label for="annual_income">Annual Income</label>
+            <input type="number" id="annual_income" name="annual_income">
+          </div>
+        </div>
+      </div>
+
+      <!-- Farm Information Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Farm Information</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="agrarian_beneficiary">Agrarian Beneficiary</label>
+            <select id="agrarian_beneficiary" name="agrarian_beneficiary">
+              <option value="">-- Select --</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="farm_area">Farm Area</label>
+            <input type="number" id="farm_area" name="farm_area">
+          </div>
+          
+          <div class="form-group">
+            <label for="farm_type">Farm Type</label>
+            <select id="farm_type" name="farm_type">
+              <option value="">-- Select --</option>
+              <option value="Irrigated">Irrigated</option>
+              <option value="Rainfed">Rainfed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="is_tenant">Is Tenant</label>
+            <select id="is_tenant" name="is_tenant">
+              <option value="">-- Select --</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cooperative Information Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Cooperative Information</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="membership_date">Membership Date</label>
+            <input type="date" id="membership_date" name="membership_date">
+          </div>
+          
+          <div class="form-group">
+            <label for="cooperative_position">Cooperative Position</label>
+            <input type="text" id="cooperative_position" name="cooperative_position">
+          </div>
+          
+          <div class="form-group">
+            <label for="role">Role <span class="required">*</span></label>
+            <select id="role" name="role" required>
+              <option value="member">Member</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="recruited_by">Recruited By</label>
+            <input type="text" id="recruited_by" name="recruited_by">
+          </div>
+        </div>
+      </div>
+
+      <!-- Beneficiaries Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Beneficiaries</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group form-group-full">
+            <label>Beneficiaries</label>
+            <div class="beneficiary-inputs">
+              <input type="text" name="beneficiaries[]" placeholder="Beneficiary 1">
+              <input type="text" name="beneficiaries[]" placeholder="Beneficiary 2">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Contact Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Emergency Contact</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="emergency_name">Name <span class="required">*</span></label>
+            <input type="text" id="emergency_name" name="emergency_name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="emergency_relationship">Relationship <span class="required">*</span></label>
+            <input type="text" id="emergency_relationship" name="emergency_relationship" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group form-group-full">
+            <label for="emergency_address">Address</label>
+            <textarea id="emergency_address" name="emergency_address"></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="emergency_contact">Contact Number <span class="required">*</span></label>
+            <input type="text" id="emergency_contact" name="emergency_contact" pattern="[0-9]{10,}" title="Enter a valid 10-digit number" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="relation">Relation</label>
+            <input type="text" id="relation" name="relation">
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Information Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Account Information</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group form-group-full">
+            <label for="password">Password <span class="required">*</span></label>
+            <input type="password" id="password" name="password" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signature Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <h2>Signature</h2>
+          <div class="section-divider"></div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="signature">Signature</label>
+            <input type="text" id="signature" name="signature">
+          </div>
+          
+          <div class="form-group">
+            <label for="signed_date">Signed Date</label>
+            <input type="date" id="signed_date" name="signed_date">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-btn">Register</button>
+        <button type="button" id="printButton" class="print-btn">Print Forms</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Printable Forms -->
+<div id="printableForms" style="display: none;">
+  <!-- Form 1: Membership Application -->
+  <div class="printable-form" id="membershipForm">
+    <div class="form-header-print">
+      <div class="logo-container">
+        <img src="/images/LOGO.jpg" alt="BOCOFAMCO Logo" class="print-logo">
+      </div>
+      <div class="header-text">
+        <div class="header-title">BONGABONG COCONUT FARMERS MULTI-PURPOSE COOPERATIVE</div>
+        <div class="header-subtitle">(BOCOFAMCO)</div>
+        <div class="header-address">Ubas St., Lalud, Calapan Oriental Mindoro</div>
+        <div class="header-registration">C.D.A. Registration No. 9520-04001658 *</div>
+        <div class="header-tin">TIN: 004-969-411-00003/CIN 107040021</div>
+        <div class="header-contact">Tel. No.: (043) 748-9765/Cp. No. 0939-2333818</div>
+        <div class="header-email">E-mail Add. <span class="underline">bocofamcobranch@gmail.com</span></div>
+      </div>
+      <div class="header-right">
+        <div>Passbook No. ___________</div>
+        <div>I.D. No. ___________</div>
+      </div>
+    </div>
+    
+    <div class="form-title-centered">KAHILINGAN AT PANGAKO SA PAGSAPI</div>
+    
+    <div class="form-content">
+      <div class="form-row">
+        <div class="form-label">Buong Pangalan:</div>
+        <div class="form-field" id="print-full-name"></div>
+        <div class="form-label">Palayaw:</div>
+        <div class="form-field" id="print-nickname"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Kapanganakan:</div>
+        <div class="form-field" id="print-dob"></div>
+        <div class="form-label">Edad:</div>
+        <div class="form-field" id="print-age"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Tirahan:</div>
+        <div class="form-field" id="print-address"></div>
+        <div class="form-label">Asawa:</div>
+        <div class="form-field" id="print-spouse"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Natapos na Pinag-aralan:</div>
+        <div class="form-field" id="print-education"></div>
+        <div class="form-label">Hanap-buhay:</div>
+        <div class="form-field" id="print-occupation"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Tagapagmana:</div>
+        <div class="form-label-small">1.</div>
+        <div class="form-field" id="print-beneficiary1"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label"></div>
+        <div class="form-label-small">2.</div>
+        <div class="form-field" id="print-beneficiary2"></div>
+      </div>
+      
+      <div class="form-paragraph">
+        Ako ay kusang loob na naghahain ng kahilingang ito sa pagsapi sa samahan ng BOCOFAMCO upang makipagtulungan, makiahok sa pagtataguyod ng mga kapakibanagan sa mga Gawain at mga proyekto nito lalong-lalo na yaong may kaugnayan sa pangkaunlaran ng kabuhayan ng samahan, at kaugnay nito ako ay nangangako na:
+      </div>
+      
+      <div class="form-paragraph">
+        Kung mamarapatan ang aking kahilingan bilang isang mabuting kasapi ay sisikaping kong sumunod at tumpad sa mga alituntunin at mga patakaran, mga atas at regulasyon ng samahan, at kaugnay nito ako ay nangangako na:
+      </div>
+      
+      <ol class="form-list">
+        <li>Magbabayad ng Membership Fee na halagang P500.00 kasabay sa paghahain ng kahilingang ito.</li>
+        <li>Ang aking pangakong Savings Fund/Saping Puhunan ay P_____________ at ang halagang P_____________ ay paunang bayad kasabay ang kahilingang ito. Ang kahulugan sa aking pangako ay ibabayad ko sa petsa</li>
+        <li>Ako ay maglalagak din ng halagang hindi kukulangin sa Limang Porsyento (5%) ng halaga ng pautang ng samahan tuwing ako ay mapagkalooban ng pautang nito; dagdag saping puhunan o CAPITAL BUILD UP.</li>
+        <li>Ako ay dadalo sa mga pag-aaral/pagsasanay na may kaugnayan sa pangkaunlaran ng kabuhayan ng samahan.</li>
+        <li>Ako ay dadalo at makikipagtalakayang aktibo sa mga pagpupulong ng kasapian ng samahan at kusang magbabayad ng kaukulang multa kung ako ay liban sa alin mang pagpupulong.</li>
+        <li>Tatangkilikin ko ng buong lugod ang anumang kapakibanagan na mga gawain o proyekto ng samahan at;</li>
+        <li>Igagalang at ipagtatanggol ko ang mga karapatan, kapasyahan at kapakanan ng samahan sa lahat ng sandali sa abot ng aking kakayahan.</li>
+        <li>Nauunawaan ko rin na ang inilagak kong SAPING PUHUNAN ay pang matagalang deposito hanggang may roong business operation ang kooperatiba.</li>
+        <li>Nauunawaan ko rin na ang inilagak kong SAVINGS DEPOSIT ang maaaring withdrawhin anumang oras.</li>
+      </ol>
+      
+      <div class="form-paragraph">
+        Datapwa't kung hindi ako magtatatangkilik o tumupad sa alinmang bahagi ng pangakong ito ay nauunawaan ko at inaasahan na ako ay ititiwalag nang samahan, at kung magkagayon, ang anumang pinansiyal na pananagutan ko sa samahan ay ibabawas sa aking mga lagak. Kung sakaling mayroon pang matitira sa aking mga lagak ito ay ibabalik sa akin pagkatapos na mabawasan ang Pitong Porsyento (7%) nito bilang donasyon ko para sa Community Service ng kooperatiba.
+      </div>
+      
+      <div class="form-paragraph">
+        Nauunawaan ko rin na kung ako ay ititiwalag na ay nangangahulugan na nagwakas na rin ang aking mga karapatan at mga pakikinabang mula sa alin mang proyekto nito. Ito ay tinatanggap ko nang walang ano pa mang paghahabol o pag uusisa.
+      </div>
+      
+      <div class="form-signature-section">
+        <div class="form-signature-left">
+          <div>Idinulog Ngayong:</div>
+          <div class="form-signature-line"></div>
+          <div>Petsa</div>
+          <div class="form-signature-line"></div>
+          <div>Tinanggap/Itinala</div>
+          <div class="form-signature-line"></div>
+          <div>(Pangalan)</div>
+          <div class="form-signature-line"></div>
+          <div>NOTED:</div>
+          <div class="form-signature-line"></div>
+          <div>Chairperson</div>
+        </div>
+        
+        <div class="form-signature-right">
+          <div class="form-signature-center">Marapatin nawa ang aking Kahilingan</div>
+          <div class="form-thumb-mark">Thumb Mark</div>
+          <div class="form-signature-line"></div>
+          <div class="form-signature-center">(Lagda ng may kahilingan)</div>
+          <div class="form-id-section">
+            <div class="form-id-row">
+              <div>VALID ID:</div>
+              <div class="form-id-field"></div>
+              <div>ID NUMBER</div>
+              <div class="form-id-field"></div>
+            </div>
+            <div class="form-id-row">
+              <div>DATE ISSUED:</div>
+              <div class="form-id-field"></div>
+              <div>PLACE ISSUED:</div>
+              <div class="form-id-field"></div>
+            </div>
+            <div class="form-id-row">
+              <div>TIN NUMBER:</div>
+              <div class="form-id-field"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Form 2: Personal Information Form -->
+  <div class="printable-form" id="personalInfoForm">
+    <div class="form-title-centered">PERSONAL INFORMATION</div>
+    
+    <div class="form-content">
+      <div class="form-row">
+        <div class="form-label">Name:</div>
+        <div class="form-field" id="print-name"></div>
+        <div class="form-label">Nickname:</div>
+        <div class="form-field" id="print-nickname2"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Address:</div>
+        <div class="form-field" id="print-address2"></div>
+        <div class="form-label">Contact #:</div>
+        <div class="form-field" id="print-contact"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Civil Status:</div>
+        <div class="form-field" id="print-civil-status"></div>
+        <div class="form-label">Sex:</div>
+        <div class="form-field" id="print-sex"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Date of Birth:</div>
+        <div class="form-field" id="print-dob2"></div>
+        <div class="form-label">Age:</div>
+        <div class="form-field" id="print-age2"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Place of Birth:</div>
+        <div class="form-field-long" id="print-birthplace"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Nationality:</div>
+        <div class="form-field" id="print-nationality"></div>
+        <div class="form-label">Religion:</div>
+        <div class="form-field" id="print-religion"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Name of Spouse:</div>
+        <div class="form-field" id="print-spouse2"></div>
+        <div class="form-label">Age:</div>
+        <div class="form-field" id="print-spouse-age"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Occupation of Spouse:</div>
+        <div class="form-field-long" id="print-spouse-occupation"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Name of Father:</div>
+        <div class="form-field-long" id="print-father"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Name of Mother:</div>
+        <div class="form-field-long" id="print-mother"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Their Address:</div>
+        <div class="form-field-long" id="print-parent-address"></div>
+      </div>
+      
+      <div class="form-children-section">
+        <div class="form-label">Name of Children:</div>
+        <div class="form-children-list">
+          <div class="form-child-row">
+            <div class="form-child-number">1.</div>
+            <div class="form-child-name" id="print-child1"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child1-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">2.</div>
+            <div class="form-child-name" id="print-child2"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child2-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">3.</div>
+            <div class="form-child-name" id="print-child3"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child3-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">4.</div>
+            <div class="form-child-name" id="print-child4"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child4-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">5.</div>
+            <div class="form-child-name" id="print-child5"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child5-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">6.</div>
+            <div class="form-child-name" id="print-child6"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child6-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">7.</div>
+            <div class="form-child-name" id="print-child7"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child7-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">8.</div>
+            <div class="form-child-name" id="print-child8"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child8-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">9.</div>
+            <div class="form-child-name" id="print-child9"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child9-age"></div>
+          </div>
+          <div class="form-child-row">
+            <div class="form-child-number">10.</div>
+            <div class="form-child-name" id="print-child10"></div>
+            <div class="form-child-age-label">Age:</div>
+            <div class="form-child-age" id="print-child10-age"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Educational Attainment:</div>
+        <div class="form-field-long" id="print-educational-attainment"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Occupation:</div>
+        <div class="form-field" id="print-occupation2"></div>
+        <div class="form-label">Other Source of Income:</div>
+        <div class="form-field" id="print-other-income"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Annual Income:</div>
+        <div class="form-field-long" id="print-annual-income"></div>
+      </div>
+      
+      <div class="form-education-table">
+        <div class="form-education-header">Educational Background:</div>
+        <table>
+          <tr>
+            <th></th>
+            <th>Name of School</th>
+            <th>School Address</th>
+            <th>Year Graduated</th>
+          </tr>
+          <tr>
+            <td>Elementary:</td>
+            <td id="print-elementary-school"></td>
+            <td id="print-elementary-address"></td>
+            <td id="print-elementary-year"></td>
+          </tr>
+          <tr>
+            <td>Secondary:</td>
+            <td id="print-secondary-school"></td>
+            <td id="print-secondary-address"></td>
+            <td id="print-secondary-year"></td>
+          </tr>
+          <tr>
+            <td>College:</td>
+            <td id="print-college-school"></td>
+            <td id="print-college-address"></td>
+            <td id="print-college-year"></td>
+          </tr>
+          <tr>
+            <td>Vocational:</td>
+            <td id="print-vocational-school"></td>
+            <td id="print-vocational-address"></td>
+            <td id="print-vocational-year"></td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Date of Membership in the Cooperative:</div>
+        <div class="form-field-long" id="print-membership-date"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Position in the Cooperative:</div>
+        <div class="form-field-long" id="print-coop-position"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Person to be contacted in case of Emergency:</div>
+        <div class="form-field-long" id="print-emergency-name"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">His/Her Address and Contact Number:</div>
+        <div class="form-field-long" id="print-emergency-address"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Relation:</div>
+        <div class="form-field" id="print-emergency-relation"></div>
+        <div class="form-label">Recruited by:</div>
+        <div class="form-field" id="print-recruited-by"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Ikaw ba ay Agrarian Reform Beneficiaries?</div>
+        <div class="form-checkbox" id="print-agrarian-yes">( ) Yes</div>
+        <div class="form-checkbox" id="print-agrarian-no">( ) No</div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Bilang ng Sinasaking lupa:</div>
+        <div class="form-field" id="print-farm-area"></div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Ektarya:</div>
+        <div class="form-field" id="print-farm-hectares"></div>
+        <div class="form-checkbox" id="print-irrigated">( ) Irrigated</div>
+        <div class="form-checkbox" id="print-rainfed">( ) Rainfed</div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-label">Ikaw ba ay Tenant?</div>
+        <div class="form-checkbox" id="print-tenant-yes">( ) Yes</div>
+        <div class="form-checkbox" id="print-tenant-no">( ) No</div>
+      </div>
+      
+      <div class="form-signature-bottom">
+        <div class="form-signature-line" id="print-signature-name"></div>
+        <div>Name (Print & Signature)</div>
+        <div class="form-signature-space"></div>
+        <div class="form-signature-line" id="print-date"></div>
+        <div>Date</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Form 3: ID Form -->
+  <div class="printable-form" id="idForm">
+    <div class="id-form-title">BOCOFAMCO ID FORM</div>
+    <div class="id-form-subtitle">Calapan Branch</div>
+    
+    <div class="id-form-content">
+      <div class="id-form-row">
+        <div class="id-form-label">CB Number:</div>
+        <div class="id-form-field" id="print-cb-number"></div>
+        <div class="id-form-photo">1 x 1</div>
+      </div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">First Name</div>
+      </div>
+      
+      <div class="id-form-boxes" id="print-first-name-boxes">
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+      </div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Last Name</div>
+      </div>
+      
+      <div class="id-form-boxes" id="print-last-name-boxes">
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+      </div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Address:</div>
+      </div>
+      
+      <div class="id-form-address-box" id="print-address-box"></div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Beneficiaries:</div>
+      </div>
+      
+      <div class="id-form-boxes" id="print-beneficiary1-boxes">
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+      </div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Beneficiaries:</div>
+      </div>
+      
+      <div class="id-form-boxes" id="print-beneficiary2-boxes">
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+      </div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">In Case of Emergency Contact:</div>
+      </div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Name:</div>
+      </div>
+      
+      <div class="id-form-boxes" id="print-emergency-name-boxes">
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+      </div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Relationship:</div>
+      </div>
+      
+      <div class="id-form-relationship-box" id="print-relationship-box"></div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Address:</div>
+      </div>
+      
+      <div class="id-form-address-box" id="print-emergency-address-box"></div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Contact No.:</div>
+      </div>
+      
+      <div class="id-form-boxes" id="print-contact-boxes">
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+        <div class="id-form-box"></div>
+      </div>
+      
+      <div class="id-form-row">
+        <div class="id-form-label">Date Issued:</div>
+      </div>
+      
+      <div class="id-form-date-boxes" id="print-date-issued-boxes">
+        <div class="id-form-box">M</div>
+        <div class="id-form-box">M</div>
+        <div class="id-form-date-separator">-</div>
+        <div class="id-form-box">D</div>
+        <div class="id-form-box">D</div>
+        <div class="id-form-date-separator">-</div>
+        <div class="id-form-box">Y</div>
+        <div class="id-form-box">Y</div>
+        <div class="id-form-box">Y</div>
+        <div class="id-form-box">Y</div>
+      </div>
+      
+      <div class="id-form-signature">
+        <div class="id-form-signature-box" id="print-signature-box"></div>
+        <div class="id-form-signature-label">Signature</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Form 4: Subscription Agreement -->
+  <div class="printable-form" id="subscriptionForm">
+    <div class="form-header-print">
+      <div class="logo-container">
+        <img src="/images/LOGO.jpg" alt="BOCOFAMCO Logo" class="print-logo">
+      </div>
+      <div class="header-text">
+        <div class="header-title">BONGABONG COCONUT FARMERS MULTI-PURPOSE COOPERATIVE</div>
+        <div class="header-subtitle">(BOCOFAMCO)</div>
+        <div class="header-address">Poblacion, Bongabong, Oriental Mindoro</div>
+        <div class="header-registration">C.D.A. Registration No. 9520-04001658 *</div>
+        <div class="header-tin">TIN: 004-969-411-0003/CIN 107040021</div>
+        <div class="header-contact">Tel. No.: (043) 748-9765/Cp. No. 0939-2333818</div>
+        <div class="header-email">E-mail Add. <span class="underline">bocofamcobranch@gmail.com</span></div>
+      </div>
+    </div>
+    
+    <div class="form-title-centered">Pangako sa Paglagak ng Saping Puhunan</div>
+    <div class="form-subtitle-centered">(Subscription Agreement)</div>
+    
+    <div class="form-content">
+      <div class="form-paragraph">
+        Sa Patunugutan:
+      </div>
+      
+      <div class="form-paragraph">
+        Ako si <span class="form-blank" id="print-full-name3"></span> nasa hustong gulang, nakatira sa <span class="form-blank" id="print-address3"></span> at regular na kasapi ng BONGABONG COCONUT FARMERS MULTI-PURPOSE COOPERATIVE (BOCOFAMCO) pagkatapos kong malaman ang tungkulin, pananagutan at karapatan ng isang kasapi na nakasaad sa By-Laws ay kusang loob akong nagpapahayag ng aking saloobin na ibig kong maglagak ng aking saping puhunan ayon sa itinadhana ng Articles of Cooperation,
+      </div>
+      
+      <div class="form-paragraph">
+        Articles X-Capitalization
+      </div>
+      
+      <div class="form-paragraph">
+        Xxx That the Authorized Share Capital of this cooperative is One Hundred Million Pesos (PHP 100,000,000.00) divided into 1,000,000 shares with a par value of One Hundred Pesos (PHP 100.00) per share.
+      </div>
+      
+      <div class="form-paragraph">
+        At ang aking ipinangakong lagak na saping puhunan ay <span class="form-blank" id="print-shares-amount"></span> (<span class="form-blank" id="print-shares-number"></span>) shares na may katubusan na halagang <span class="form-blank" id="print-shares-value"></span> (<span class="form-blank" id="print-shares-value-words"></span>) bilang sosyo/saping puhunan na aking babayaran simula ika-<span class="form-blank" id="print-payment-start-day"></span> ng <span class="form-blank" id="print-payment-start-month"></span> hanggang ika-<span class="form-blank" id="print-payment-end-day"></span> ng <span class="form-blank" id="print-payment-end-month"></span> 20<span class="form-blank" id="print-payment-end-year"></span>. At ang aking binayarang saping puhunan ay nagkakahalaga ng <span class="form-blank" id="print-paid-amount"></span> (<span class="form-blank" id="print-paid-shares"></span>) katumbas ng <span class="form-blank" id="print-paid-shares-number"></span> shares. Ayon sa layunin ng kooperatiba na mapalago ang puhunan upang patuloy na magkaroon ng katiyakan ang katatagaang pinansiyal at maabot ang halaga ng Authorized Capital Share ng BOCOFAMCO.
+      </div>
+      
+      <div class="form-paragraph">
+        At ako ay lubos na nangangako na tutuparin ko ang palagiaan at patuloy na paglalagak para sa aking saping puhunan.
+      </div>
+      
+      <div class="form-paragraph">
+        At kung ito'y aking natupad ay muli akong maglalagak at lubos ang aking pagpapayo o pagsang-ayon na ito'y bawasiin mula sa aking mga produktong ibinenta sa kooperatiba o kaya ay sa aking suweldo, savings o loan retention bilang hulog sa aking saping-puhunan katumbas ng aking ipinangako gayon din ang bahagi ng aking Patronage Refund at Dibidendo.
+      </div>
+      
+      <div class="form-paragraph">
+        At patuloy kong susuportahan ang programa ng aning kooperatiba para sa Capital Build-Up sang-ayon sa mga patakaran itinakal at itatakda pa ng patunugutan na pinagtibay ng asembleya.
+      </div>
+      
+      <div class="form-paragraph">
+        Bilang patunay sa lahat ng ito at sa kahalgahan ng aking salaysay ay kusang loob akong lumagda sa ibaba nitong aking salaysay ngayong ika-<span class="form-blank" id="print-signing-day"></span> ng <span class="form-blank" id="print-signing-month"></span> 20<span class="form-blank" id="print-signing-year"></span> dito sa punong tanggapan ng BOCOFAMCO.
+      </div>
+      
+      <div class="form-signature-center">
+        <div class="form-signature-line"></div>
+        <div>Signature Over Printed Name</div>
+      </div>
+      
+      <div class="form-signature-bottom-dual">
+        <div class="form-signature-left">
+          <div>Nilikha ni:</div>
+          <div class="form-signature-line"></div>
+          <div>Kalihim</div>
+        </div>
+        
+        <div class="form-signature-right">
+          <div>Pinagtibay ni:</div>
+          <div class="form-signature-line"></div>
+          <div>Chairperson of the Board</div>
+        </div>
+      </div>
+      
+      <div class="form-resolution">
+        <div class="form-resolution-row">
+          <div>Pinagtibay:</div>
+          <div>BOD Resolution No.</div>
+          <div class="form-resolution-line"></div>
+        </div>
+        <div class="form-resolution-row">
+          <div>Dated:</div>
+          <div class="form-resolution-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Base Styles */
+  :root {
+    --primary-color: #1e3a8a;
+    --primary-hover: #1e40af;
+    --secondary-color: #f3f4f6;
+    --text-color: #111827;
+    --text-light: #6b7280;
+    --border-color: #d1d5db;
+    --error-color: #dc2626;
+    --success-color: #059669;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --radius: 0.5rem;
+  }
+
+  /* Form Page Layout */
+  .form-page {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .form-container {
+    background-color: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-left: auto; 
+    margin-right: 0;
+    width: 80%;
+    max-width: 1000px;
+    position: absolute;
+    right: 2rem;
+  }
+
+  /* Form Header */
+  .form-header {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .form-header h1 {
+    margin: 0;
+    font-size: 1.875rem;
+    font-weight: 700;
+  }
+
+  .form-subtitle {
+    margin-top: 0.5rem;
+    opacity: 0.9;
+    font-size: 1rem;
+  }
+
+  /* Form Sections */
+  .form-section {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .form-section:last-child {
+    border-bottom: none;
+  }
+
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .section-divider {
+    height: 3px;
+    width: 50px;
+    background-color: var(--primary-color);
+    margin-top: 0.5rem;
+  }
+
+  /* Form Rows and Groups */
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.75rem 1.5rem -0.75rem;
+  }
+
+  .form-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .form-group {
+    flex: 1;
+    min-width: 250px;
+    padding: 0 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-group-full {
+    flex: 0 0 100%;
+  }
+
+  /* Form Controls */
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+
+  .required {
+    color: var(--error-color);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background-color: white;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    padding-right: 2.5rem;
+  }
+
+  /* Education Subsections */
+  .education-subsection {
+    margin-bottom: 1.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .education-subsection h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: var(--text-light);
+  }
+
+  .education-subsection:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Beneficiary Inputs */
+  .beneficiary-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Alert */
+  .alert {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin: 0 2rem 1.5rem;
+    border-radius: var(--radius);
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+
+  .alert-icon {
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+    width: 20px;
+    height: 20px;
+  }
+
+  .alert p {
+    margin: 0;
+  }
+
+  /* Form Actions */
+  .form-actions {
+    padding: 1.5rem 2rem;
+    background-color: var(--secondary-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .submit-btn, .print-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .submit-btn:hover, .print-btn:hover {
+    background-color: var(--primary-hover);
+  }
+
+  /* Printable Forms Styles */
+  .printable-form {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 0.5in;
+    margin: 0 auto;
+    background-color: white;
+    page-break-after: always;
+    font-family: 'Arial', sans-serif;
+    font-size: 12pt;
+    line-height: 1.3;
+    position: relative;
+  }
+
+  /* Header styles for printable forms */
+  .form-header-print {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 10px;
+    position: relative;
+  }
+
+  .logo-container {
+    width: 80px;
+    margin-right: 15px;
+  }
+
+  .print-logo {
+    width: 100%;
+    height: auto;
+  }
+
+  .header-text {
+    flex: 1;
+    text-align: center;
+  }
+
+  .header-title {
+    font-weight: bold;
+    font-size: 14pt;
+  }
+
+  .header-subtitle, .header-address, .header-registration, .header-tin, .header-contact, .header-email {
+    font-size: 10pt;
+    margin: 2px 0;
+  }
+
+  .header-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: right;
+    font-size: 10pt;
+  }
+
+  /* Form titles */
+  .form-title-centered {
+    text-align: center;
+    font-weight: bold;
+    font-size: 14pt;
+    margin: 20px 0;
+    text-decoration: underline;
+  }
+
+  .form-subtitle-centered {
+    text-align: center;
+    font-size: 12pt;
+    margin: 10px 0;
+  }
+
+  /* Form content */
+  .form-content {
+    margin-top: 20px;
+  }
+
+  .form-row {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: baseline;
+  }
+
+  .form-label {
+    font-weight: bold;
+    margin-right: 5px;
+    min-width: 120px;
+  }
+
+  .form-label-small {
+    margin-right: 5px;
+    width: 20px;
+  }
+
+  .form-field {
+    border-bottom: 1px solid #000;
+    min-width: 150px;
+    height: 18px;
+    margin-right: 10px;
+    flex: 1;
+  }
+
+  .form-field-long {
+    border-bottom: 1px solid #000;
+    width: 100%;
+    height: 18px;
+    margin-bottom: 5px;
+  }
+
+  .form-paragraph {
+    margin-bottom: 15px;
+    text-align: justify;
+  }
+
+  .form-list {
+    margin-left: 20px;
+    margin-bottom: 15px;
+  }
+
+  .form-list li {
+    margin-bottom: 5px;
+  }
+
+  /* Signature sections */
+  .form-signature-section {
+    display: flex;
+    margin-top: 30px;
+  }
+
+  .form-signature-left, .form-signature-right {
+    width: 48%;
+  }
+
+  .form-signature-center {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .form-signature-line {
+    border-bottom: 1px solid #000;
+    height: 18px;
+    margin: 5px 0;
+  }
+
+  .form-thumb-mark {
+    border: 1px solid #000;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
+  }
+
+  .form-id-section {
+    margin-top: 20px;
+  }
+
+  .form-id-row {
+    display: flex;
+    margin-bottom: 5px;
+  }
+
+  .form-id-field {
+    border-bottom: 1px solid #000;
+    flex: 1;
+    height: 18px;
+    margin: 0 5px;
+  }
+
+  /* Children section */
+  .form-children-section {
+    margin: 15px 0;
+  }
+
+  .form-children-list {
+    margin-left: 20px;
+  }
+
+  .form-child-row {
+    display: flex;
+    margin-bottom: 5px;
+  }
+
+  .form-child-number {
+    width: 20px;
+  }
+
+  .form-child-name {
+    border-bottom: 1px solid #000;
+    flex: 1;
+    height: 18px;
+    margin-right: 10px;
+  }
+
+  .form-child-age-label {
+    margin: 0 5px;
+  }
+
+  .form-child-age {
+    border-bottom: 1px solid #000;
+    width: 50px;
+    height: 18px;
+  }
+
+  /* Education table */
+  .form-education-table {
+    margin: 20px 0;
+  }
+
+  .form-education-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .form-education-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .form-education-table th, .form-education-table td {
+    border: 1px solid #000;
+    padding: 5px;
+    text-align: left;
+  }
+
+  /* Checkboxes */
+  .form-checkbox {
+    margin-right: 15px;
+  }
+
+  /* Signature bottom */
+  .form-signature-bottom {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .form-signature-space {
+    height: 30px;
+  }
+
+  .form-signature-bottom-dual {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+
+  /* Resolution section */
+  .form-resolution {
+    margin-top: 20px;
+  }
+
+  .form-resolution-row {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .form-resolution-line {
+    border-bottom: 1px solid #000;
+    flex: 1;
+    height: 18px;
+    margin: 0 5px;
+  }
+
+  /* ID Form specific styles */
+  .id-form-title {
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .id-form-subtitle {
+    font-size: 12pt;
+    margin-bottom: 15px;
+  }
+
+  .id-form-content {
+    margin-top: 10px;
+  }
+
+  .id-form-row {
+    margin-bottom: 5px;
+  }
+
+  .id-form-label {
+    font-weight: normal;
+    margin-bottom: 2px;
+  }
+
+  .id-form-field {
+    border: 1px solid #000;
+    height: 30px;
+    width: 250px;
+    display: inline-block;
+  }
+
+  .id-form-photo {
+    border: 1px solid #000;
+    width: 1in;
+    height: 1in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0.5in;
+    right: 0.5in;
+  }
+
+  .id-form-boxes {
+    display: flex;
+    margin-bottom: 15px;
+  }
+
+  .id-form-box {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #000;
+    margin-right: 2px;
+    display: inline-block;
+    text-align: center;
+    line-height: 25px;
+  }
+
+  .id-form-address-box, .id-form-relationship-box {
+    border: 1px solid #000;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 15px;
+  }
+
+  .id-form-date-boxes {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .id-form-date-separator {
+    margin: 0 5px;
+    font-weight: bold;
+  }
+
+  .id-form-signature {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .id-form-signature-box {
+    border: 1px solid #000;
+    width: 200px;
+    height: 60px;
+    margin: 0 auto 5px auto;
+  }
+
+  .id-form-signature-label {
+    text-align: center;
+  }
+
+  /* Blank spaces for subscription form */
+  .form-blank {
+    border-bottom: 1px solid #000;
+    display: inline-block;
+    min-width: 100px;
+  }
+
+  /* Print-specific styles */
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    
+    #printableForms, #printableForms * {
+      visibility: visible;
+    }
+    
+    #printableForms {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    
+    .printable-form {
+      page-break-after: always;
+      margin: 0;
+      padding: 0.5in;
+    }
+    
+    .printable-form:last-child {
+      page-break-after: avoid;
+    }
+  }
+</style>
+
+<script>
+  // Initialize Lucide icons if available
+  if (typeof window !== 'undefined' && window.lucide) {
+    lucide.createIcons();
+  }
+  
+  // Calculate age automatically when date of birth changes
+  document.addEventListener('DOMContentLoaded', function() {
+    const dobInput = document.getElementById('dob');
+    const ageInput = document.getElementById('age');
+    
+    if (dobInput && ageInput) {
+      dobInput.addEventListener('change', function() {
+        if (this.value) {
+          const dob = new Date(this.value);
+          const today = new Date();
+          let age = today.getFullYear() - dob.getFullYear();
+          const monthDiff = today.getMonth() - dob.getMonth();
+          
+          if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+            age--;
+          }
+          
+          ageInput.value = age;
+        }
+      });
+    }
+    
+    // Add print functionality
+    const printButton = document.getElementById('printButton');
+    const registrationForm = document.getElementById('registrationForm');
+    
+    if (printButton && registrationForm) {
+      printButton.addEventListener('click', function() {
+        // Populate the printable forms with form data
+        populatePrintableForms();
+        
+        // Create character boxes for ID form
+        createCharacterBoxes('print-first-name-boxes', document.getElementById('first_name').value, 20);
+        createCharacterBoxes('print-last-name-boxes', document.getElementById('last_name').value, 25);
+        
+        const beneficiaries = document.getElementsByName('beneficiaries[]');
+        if (beneficiaries.length > 0) {
+          createCharacterBoxes('print-beneficiary1-boxes', beneficiaries[0].value, 20);
+          if (beneficiaries.length > 1) {
+            createCharacterBoxes('print-beneficiary2-boxes', beneficiaries[1].value, 20);
+          }
+        }
+        
+        createCharacterBoxes('print-emergency-name-boxes', document.getElementById('emergency_name').value, 20);
+        createCharacterBoxes('print-contact-boxes', document.getElementById('emergency_contact').value, 10);
+        
+        const dateIssued = document.getElementById('date_issued').value;
+        if (dateIssued) {
+          const date = new Date(dateIssued);
+          const day = date.getDate().toString().padStart(2, '0');
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const year = date.getFullYear().toString();
+          createDateBoxes('print-date-issued-boxes', `${month}${day}${year}`);
+        }
+        
+        // Show the printable forms and print
+        document.getElementById('printableForms').style.display = 'block';
+        window.print();
+        
+        // After printing, hide the printable forms again
+        document.getElementById('printableForms').style.display = 'none';
+      });
+    }
+    
+    function populatePrintableForms() {
+      // Get form values
+      const firstName = document.getElementById('first_name').value;
+      const middleName = document.getElementById('middle_name').value;
+      const lastName = document.getElementById('last_name').value;
+      const fullName = `${firstName} ${middleName ? middleName + ' ' : ''}${lastName}`;
+      
+      // Populate membership form
+      document.getElementById('print-full-name').textContent = fullName;
+      document.getElementById('print-nickname').textContent = document.getElementById('nickname').value;
+      document.getElementById('print-dob').textContent = document.getElementById('dob').value;
+      document.getElementById('print-age').textContent = document.getElementById('age').value;
+      document.getElementById('print-address').textContent = document.getElementById('address').value;
+      document.getElementById('print-spouse').textContent = document.getElementById('spouse_name').value;
+      document.getElementById('print-education').textContent = document.getElementById('educational_attainment').value;
+      document.getElementById('print-occupation').textContent = document.getElementById('occupation').value;
+      
+      const beneficiaries = document.getElementsByName('beneficiaries[]');
+      if (beneficiaries.length > 0) {
+        document.getElementById('print-beneficiary1').textContent = beneficiaries[0].value;
+        if (beneficiaries.length > 1) {
+          document.getElementById('print-beneficiary2').textContent = beneficiaries[1].value;
+        }
+      }
+      
+      // Populate personal info form
+      document.getElementById('print-name').textContent = fullName;
+      document.getElementById('print-nickname2').textContent = document.getElementById('nickname').value;
+      document.getElementById('print-address2').textContent = document.getElementById('address').value;
+      document.getElementById('print-contact').textContent = document.getElementById('contact_number').value;
+      document.getElementById('print-civil-status').textContent = document.getElementById('civil_status').value;
+      document.getElementById('print-sex').textContent = document.getElementById('gender').value;
+      document.getElementById('print-dob2').textContent = document.getElementById('dob').value;
+      document.getElementById('print-age2').textContent = document.getElementById('age').value;
+      document.getElementById('print-birthplace').textContent = document.getElementById('place_of_birth').value;
+      document.getElementById('print-nationality').textContent = document.getElementById('nationality').value;
+      document.getElementById('print-religion').textContent = document.getElementById('religion').value;
+      document.getElementById('print-spouse2').textContent = document.getElementById('spouse_name').value;
+      document.getElementById('print-spouse-age').textContent = document.getElementById('spouse_age').value;
+      document.getElementById('print-spouse-occupation').textContent = document.getElementById('spouse_occupation').value;
+      document.getElementById('print-father').textContent = document.getElementById('father_name').value;
+      document.getElementById('print-mother').textContent = document.getElementById('mother_name').value;
+      document.getElementById('print-parent-address').textContent = document.getElementById('parent_address').value;
+      
+      // Parse children info
+      const childrenInfo = document.getElementById('children_info').value;
+      const childrenLines = childrenInfo.split('\n');
+      for (let i = 0; i < Math.min(childrenLines.length, 10); i++) {
+        const childInfo = childrenLines[i].split(',');
+        if (childInfo.length > 0) {
+          document.getElementById(`print-child${i+1}`).textContent = childInfo[0].trim();
+          if (childInfo.length > 1) {
+            document.getElementById(`print-child${i+1}-age`).textContent = childInfo[1].trim();
+          }
+        }
+      }
+      
+      document.getElementById('print-educational-attainment').textContent = document.getElementById('educational_attainment').value;
+      document.getElementById('print-occupation2').textContent = document.getElementById('occupation').value;
+      document.getElementById('print-other-income').textContent = document.getElementById('other_income').value;
+      document.getElementById('print-annual-income').textContent = document.getElementById('annual_income').value;
+      
+      document.getElementById('print-elementary-school').textContent = document.getElementById('elementary_school').value;
+      document.getElementById('print-elementary-address').textContent = document.getElementById('elementary_address').value;
+      document.getElementById('print-elementary-year').textContent = document.getElementById('elementary_year_graduated').value;
+      
+      document.getElementById('print-secondary-school').textContent = document.getElementById('secondary_school').value;
+      document.getElementById('print-secondary-address').textContent = document.getElementById('secondary_address').value;
+      document.getElementById('print-secondary-year').textContent = document.getElementById('secondary_year_graduated').value;
+      
+      document.getElementById('print-college-school').textContent = document.getElementById('college_school').value;
+      document.getElementById('print-college-address').textContent = document.getElementById('college_address').value;
+      document.getElementById('print-college-year').textContent = document.getElementById('college_year_graduated').value;
+      
+      document.getElementById('print-vocational-school').textContent = document.getElementById('vocational_school').value;
+      document.getElementById('print-vocational-address').textContent = document.getElementById('vocational_address').value;
+      document.getElementById('print-vocational-year').textContent = document.getElementById('vocational_year_graduated').value;
+      
+      document.getElementById('print-membership-date').textContent = document.getElementById('membership_date').value;
+      document.getElementById('print-coop-position').textContent = document.getElementById('cooperative_position').value;
+      document.getElementById('print-emergency-name').textContent = document.getElementById('emergency_name').value;
+      document.getElementById('print-emergency-address').textContent = document.getElementById('emergency_address').value;
+      document.getElementById('print-emergency-relation').textContent = document.getElementById('emergency_relationship').value;
+      document.getElementById('print-recruited-by').textContent = document.getElementById('recruited_by').value;
+      
+      // Handle checkboxes
+      if (document.getElementById('agrarian_beneficiary').value === 'Yes') {
+        document.getElementById('print-agrarian-yes').innerHTML = '(✓) Yes';
+      } else if (document.getElementById('agrarian_beneficiary').value === 'No') {
+        document.getElementById('print-agrarian-no').innerHTML = '(✓) No';
+      }
+      
+      document.getElementById('print-farm-area').textContent = document.getElementById('farm_area').value;
+      document.getElementById('print-farm-hectares').textContent = document.getElementById('farm_area').value;
+      
+      if (document.getElementById('farm_type').value === 'Irrigated') {
+        document.getElementById('print-irrigated').innerHTML = '(✓) Irrigated';
+      } else if (document.getElementById('farm_type').value === 'Rainfed') {
+        document.getElementById('print-rainfed').innerHTML = '(✓) Rainfed';
+      }
+      
+      if (document.getElementById('is_tenant').value === 'Yes') {
+        document.getElementById('print-tenant-yes').innerHTML = '(✓) Yes';
+      } else if (document.getElementById('is_tenant').value === 'No') {
+        document.getElementById('print-tenant-no').innerHTML = '(✓) No';
+      }
+      
+      document.getElementById('print-signature-name').textContent = fullName;
+      document.getElementById('print-date').textContent = new Date().toLocaleDateString();
+      
+      // Populate ID form
+      document.getElementById('print-cb-number').textContent = document.getElementById('cb_number').value;
+      document.getElementById('print-address-box').textContent = document.getElementById('address').value;
+      document.getElementById('print-relationship-box').textContent = document.getElementById('emergency_relationship').value;
+      document.getElementById('print-emergency-address-box').textContent = document.getElementById('emergency_address').value;
+      
+      // Populate subscription form
+      document.getElementById('print-full-name3').textContent = fullName;
+      document.getElementById('print-address3').textContent = document.getElementById('address').value;
+      
+      // Set default values for subscription form
+      document.getElementById('print-shares-amount').textContent = "Five Thousand Pesos";
+      document.getElementById('print-shares-number').textContent = "50";
+      document.getElementById('print-shares-value').textContent = "P5,000.00";
+      document.getElementById('print-shares-value-words').textContent = "Five Thousand Pesos";
+      
+      const today = new Date();
+      document.getElementById('print-payment-start-day').textContent = today.getDate();
+      document.getElementById('print-payment-start-month').textContent = getMonthName(today.getMonth());
+      
+      const endDate = new Date();
+      endDate.setMonth(endDate.getMonth() + 6);
+      document.getElementById('print-payment-end-day').textContent = endDate.getDate();
+      document.getElementById('print-payment-end-month').textContent = getMonthName(endDate.getMonth());
+      document.getElementById('print-payment-end-year').textContent = endDate.getFullYear().toString().substr(-2);
+      
+      document.getElementById('print-paid-amount').textContent = "P1,000.00";
+      document.getElementById('print-paid-shares').textContent = "One Thousand Pesos";
+      document.getElementById('print-paid-shares-number').textContent = "10";
+      
+      document.getElementById('print-signing-day').textContent = today.getDate();
+      document.getElementById('print-signing-month').textContent = getMonthName(today.getMonth());
+      document.getElementById('print-signing-year').textContent = today.getFullYear().toString().substr(-2);
+    }
+    
+    function createCharacterBoxes(containerId, text, maxBoxes) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      
+      for (let i = 0; i < maxBoxes; i++) {
+        const box = document.createElement('div');
+        box.className = 'id-form-box';
+        if (i < text.length) {
+          box.textContent = text[i].toUpperCase();
+        }
+        container.appendChild(box);
+      }
+    }
+    
+    function createDateBoxes(containerId, dateString) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      
+      for (let i = 0; i < dateString.length; i++) {
+        const box = document.createElement('div');
+        box.className = 'id-form-box';
+        box.textContent = dateString[i];
+        container.appendChild(box);
+        
+        // Add separator after MM and DD
+        if (i === 1 || i === 3) {
+          const separator = document.createElement('div');
+          separator.textContent = '-';
+          separator.className = 'id-form-date-separator';
+          container.appendChild(separator);
+        }
+      }
+    }
+    
+    function getMonthName(monthIndex) {
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      return months[monthIndex];
+    }
+  });
+</script>

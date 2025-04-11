@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regular/Agricultural Loan Form | BOCOFAMCO Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.clodflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1e3a8a;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+        
+        .form-group .readonly {
+            background-color: #f9fafb;
+            cursor: not-allowed;
+        }
+        
+        .form-group .readonly:focus {
+            border-color: #e5e7eb;
+            box-shadow: none;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .form-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .form-actions button.submit {
+            background-color: #1e3a8a;
+            color: white;
+        }
+        
+        .form-actions button.submit:hover {
+            background-color: #1d3557;
+        }
+        
+        .form-actions button.cancel {
+            background-color: #e5e7eb;
+            color: #333;
+        }
+        
+        .form-actions button.cancel:hover {
+            background-color: #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <% const currentPage = 'loan-applications'; %>
+    <%- include('../partials/adminsidebar', { currentPage }) %>
+    
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Regular/Agricultural Loan Form</h1>
+        </div>
+        
+        <div class="form-container">
+            <!-- Display the CB_NUMBER -->
+            <div class="form-group">
+                <label for="cbNumber">CB Number</label>
+                <input type="text" id="cbNumber" class="readonly" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="loanAmount">Loan Amount (₱)</label>
+                <input type="number" id="loanAmount" placeholder="Enter loan amount">
+            </div>
+            
+            <div class="form-group">
+                <label for="previousBalance">Previous Loan Balance (₱)</label>
+                <input type="number" id="previousBalance" placeholder="Enter previous loan balance" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="newBalance">New Loan Balance (₱)</label>
+                <input type="number" id="newBalance" class="readonly" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="serviceFee">Service Fee (SF) - 3% (₱)</label>
+                <input type="number" id="serviceFee" class="readonly" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="processingFee">Processing Fee (PF) - 1% (₱)</label>
+                <input type="number" id="processingFee" class="readonly" readonly>
+            </div>
+            
+            <div class="form-actions">
+                <button class="cancel" onclick="window.history.back()">Cancel</button>
+                <button class="submit" onclick="submitForm()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to get query parameters from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Function to fetch loan details based on CB_NUMBER
+        async function fetchLoanDetails(cbNumber) {
+            if (!cbNumber) return;
+
+            try {
+                // Fetch data from the server
+                const response = await fetch(`/api/loan-details?cbNumber=${cbNumber}`);
+                const data = await response.json();
+
+                // Populate the form fields
+                document.getElementById('cbNumber').value = cbNumber;
+                document.getElementById('previousBalance').value = data.previousBalance || 0;
+            } catch (error) {
+                console.error('Error fetching loan details:', error);
+            }
+        }
+
+        // On page load, fetch the CB_NUMBER from the URL and fetch loan details
+        window.onload = () => {
+            const cbNumber = getQueryParam('cbNumber');
+            if (cbNumber) {
+                fetchLoanDetails(cbNumber);
+            }
+        };
+
+        // Function to calculate fees
+        function calculateFees() {
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+            const previousBalance = parseFloat(document.getElementById('previousBalance').value) || 0;
+            
+            // Calculate new loan balance
+            const newBalance = loanAmount - previousBalance;
+            document.getElementById('newBalance').value = newBalance.toFixed(2);
+            
+            // Calculate Service Fee (3%)
+            const serviceFee = newBalance * 0.03;
+            document.getElementById('serviceFee').value = serviceFee.toFixed(2);
+            
+            // Calculate Processing Fee (1%)
+            const processingFee = newBalance * 0.01;
+            document.getElementById('processingFee').value = processingFee.toFixed(2);
+        }
+
+        // Attach event listeners
+        document.getElementById('loanAmount').addEventListener('input', calculateFees);
+
+        // Function to submit the form
+        function submitForm() {
+            alert('Form submitted successfully!');
+            // Add your form submission logic here
+        }
+    </script>
+</body>
+</html>

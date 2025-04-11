@@ -1,0 +1,775 @@
+<%- include('../partials/membersidebar') %>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150vh;
+        padding-left: 250px; /* Adjust for sidebar */
+    }
+    
+    .loan-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        width: 150%;
+        max-width: 1000px;
+        margin-left: 20px;
+    }
+    
+    .loan-container h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #1d3557;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    label {
+        font-weight: bold;
+    }
+    
+    input, select, textarea {
+        width: 100%;
+        padding: 9px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    button {
+        background-color: #457b9d;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+    
+    button:hover {
+        background-color: #1d3557;
+    }
+    
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .notification {
+        display: none;
+        padding: 12px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .notification.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .notification.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .printable-area {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+    }
+    
+    /* Styles for the printed form */
+    .print-header {
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #000;
+        padding-bottom: 10px;
+    }
+    
+    .print-header img {
+        width: 60px;
+        height: auto;
+        margin-right: 10px;
+    }
+    
+    .print-header h2 {
+        font-size: 16px;
+        margin: 5px 0;
+        font-weight: bold;
+    }
+    
+    .print-header p {
+        font-size: 12px;
+        margin: 2px 0;
+    }
+    
+    .print-title {
+        text-align: center;
+        font-weight: bold;
+        margin: 15px 0;
+        font-size: 14px;
+        text-decoration: underline;
+    }
+    
+    .print-section {
+        margin-bottom: 15px;
+        clear: both;
+    }
+    
+    .print-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        clear: both;
+    }
+    
+    .print-field {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 5px;
+        position: relative;
+    }
+    
+    .print-label {
+        font-weight: bold;
+        margin-right: 5px;
+        font-size: 12px;
+        min-width: fit-content;
+    }
+    
+    .print-value {
+        border-bottom: 1px solid #000;
+        min-width: 200px;
+        padding: 2px 5px;
+        font-size: 12px;
+        display: inline-block;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+    
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        white-space: nowrap;
+        margin-right: 10px;
+    }
+    
+    .checkbox {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border: 1px solid #000;
+        margin-right: 5px;
+        text-align: center;
+    }
+    
+    .signature-line {
+        border-top: 1px solid #000;
+        width: 180px;
+        text-align: center;
+        padding-top: 5px;
+        margin-top: 20px;
+        font-size: 12px;
+        display: inline-block;
+    }
+    
+    .approval-section {
+        margin-top: 20px;
+        border-top: 1px solid #000;
+        padding-top: 10px;
+        clear: both;
+    }
+    
+    .print-col-left {
+        float: left;
+        width: 48%;
+    }
+    
+    .print-col-right {
+        float: right;
+        width: 48%;
+    }
+    
+    .print-full-width {
+        width: 100%;
+        clear: both;
+    }
+    
+    .print-signatures {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .print-signatures-center {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .print-committee {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+    
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        .printable-area, .printable-area * {
+            visibility: visible;
+        }
+        .printable-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .print-header h2 {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .print-header p {
+            font-size: 10px;
+        }
+        
+        .print-title {
+            font-size: 12px;
+            margin: 10px 0;
+        }
+        
+        .print-label, .print-value, .checkbox-item, .signature-line {
+            font-size: 10px;
+        }
+    }
+</style>
+
+<body>
+    <div class="loan-container">
+        <h2>Regular Loan Application Form</h2>
+        <div id="notification" class="notification"></div>
+        <form id="loanForm" action="/member/loan-regular" method="POST">
+            <div class="form-grid">
+                <div>
+                    <label for="cb_number">CB Number:</label>
+                    <input type="text" id="cb_number" name="cb_number" required>
+                    <small>Enter your CB number to auto-fill your details</small>
+
+                    <label for="application_no">Application No:</label>
+                    <input type="text" id="application_no" name="application_no" required>
+
+                    <label for="date_of_application">Date of Application:</label>
+                    <input type="date" id="date_of_application" name="date_of_application" required>    
+
+                    <label for="member_name">Member Name:</label>
+                    <input type="text" id="member_name" name="member_name" required>
+                    
+                    <label for="spouse_name">Name of Spouse:</label>
+                    <input type="text" id="spouse_name" name="spouse_name">
+
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" required></textarea>
+
+                    <label for="contact_no">Contact No:</label>
+                    <input type="text" id="contact_no" name="contact_no" required>
+                    
+                    <label for="account_no">Account No:</label>
+                    <input type="text" id="account_no" name="account_no">
+                    
+                    <label for="coop_id">Coop ID No:</label>
+                    <input type="text" id="coop_id" name="coop_id">
+
+                    <label for="loan_type">Loan Type:</label>
+                    <input type="text" id="loan_type" name="loan_type" value="Regular/Agricultural" readonly>
+                </div>
+
+                <div>
+                    <label for="loan_amount">Amount of Loan Application:</label>
+                    <input type="number" step="0.01" id="loan_amount" name="loan_amount" required>
+
+                    <label for="annual_income">Annual Income:</label>
+                    <input type="number" step="0.01" id="annual_income" name="annual_income">
+
+                    <label for="source_of_income">Source of Income:</label>
+                    <input type="text" id="source_of_income" name="source_of_income">
+                    
+                    <label for="security_offered">Security Offered:</label>
+                    <input type="text" id="security_offered" name="security_offered">
+
+                    <label for="purpose">Purpose of Loan:</label>
+                    <div>
+                        <input type="checkbox" id="purpose_emergency" name="purpose" value="Emergency">
+                        <label for="purpose_emergency">Emergency</label>
+                        
+                        <input type="checkbox" id="purpose_providential" name="purpose" value="Providential">
+                        <label for="purpose_providential">Providential</label>
+                        
+                        <input type="checkbox" id="purpose_agricultural" name="purpose" value="Agricultural">
+                        <label for="purpose_agricultural">Agricultural</label>
+                        
+                        <input type="checkbox" id="purpose_farm_equipment" name="purpose" value="Farm Equipment">
+                        <label for="purpose_farm_equipment">Farm Equipment</label>
+                        
+                        <input type="checkbox" id="purpose_crop_production" name="purpose" value="Crop Production">
+                        <label for="purpose_crop_production">Crop Production</label>
+                        
+                        <input type="checkbox" id="purpose_others" name="purpose" value="Others">
+                        <label for="purpose_others">Others</label>
+                    </div>
+
+                    <label for="paid_up_capital">Member's Paid-up Capital:</label>
+                    <input type="number" step="0.01" id="paid_up_capital" name="paid_up_capital">
+                    
+                    <label for="previous_loan">Previous Loan:</label>
+                    <input type="number" step="0.01" id="previous_loan" name="previous_loan">
+                    
+                    <label for="outstanding_balance">Outstanding Balance:</label>
+                    <input type="number" step="0.01" id="outstanding_balance" name="outstanding_balance">
+
+                    <label for="cbu_status">CBU Status:</label>
+                    <select id="cbu_status" name="cbu_status" required>
+                        <option value="Updated">Updated</option>
+                        <option value="Not Updated">Not Updated</option>
+                    </select>
+
+                    <label for="borrower_category">Borrower Category:</label>
+                    <select id="borrower_category" name="borrower_category" required>
+                        <option value="New Member">New Member</option>
+                        <option value="New Borrower">New Borrower</option>
+                        <option value="Old Member">Old Member</option>
+                        <option value="Old Borrower">Old Borrower</option>
+                    </select>
+
+                    <label for="loan_balance_status">Loan Balance Status:</label>
+                    <select id="loan_balance_status" name="loan_balance_status" required>
+                        <option value="With O/B Balance">With O/B Balance</option>
+                        <option value="Current">Current</option>
+                        <option value="Restructured">Restructured</option>
+                        <option value="Past Due">Past Due</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <button type="submit">Submit Application</button>
+        </form>
+        
+        <div id="printableArea" class="printable-area">
+            <div class="print-header">
+                <h2>BONGABONG COCONUT FARMERS MULTI-PURPOSE COOPERATIVE</h2>
+                <p>(BOCOFAMCO)</p>
+                <p>Ubas St., Lalud, Calapan City, Oriental Mindoro</p>
+                <p>C.D.A. Registration No. 9520-04001658 *</p>
+                <p>TIN: 004-969-411-003/CIN 107040021</p>
+                <p>Tel. No.: (043) 748-9765/C.P. No. 09392333818</p>
+                <p>E-mail Add: bocofamcobranchc@gmail.com</p>
+            </div>
+            
+            <div class="print-title">LOAN APPLICATION FORM FOR MEMBERS</div>
+            
+            <div class="print-row">
+                <div class="print-col-left">
+                    <div class="print-field">
+                        <span class="print-label">Date of Application:</span>
+                        <span class="print-value" id="printDate" style="min-width: 150px;"></span>
+                    </div>
+                </div>
+                <div class="print-col-right">
+                    <div class="print-field">
+                        <span class="print-label">Application No.:</span>
+                        <span class="print-value" id="printAppNo" style="min-width: 150px;"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="print-row">
+                <div class="print-col-left">
+                    <div class="print-field">
+                        <span class="print-label">Account No.:</span>
+                        <span class="print-value" id="printAccountNo" style="min-width: 150px;"></span>
+                    </div>
+                </div>
+                <div class="print-col-right">
+                    <div class="print-field">
+                        <span class="print-label">Coop I.D No.:</span>
+                        <span class="print-value" id="printCoopId" style="min-width: 150px;"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="print-section print-full-width">
+                <div class="print-field">
+                    <span class="print-label">I. Name of Member-Borrower:</span>
+                    <span class="print-value" id="printMemberName" style="min-width: 350px;"></span>
+                </div>
+                <div class="print-field">
+                    <span class="print-label">Address:</span>
+                    <span class="print-value" id="printAddress" style="min-width: 450px;"></span>
+                </div>
+                <div class="print-field">
+                    <span class="print-label">Name of Spouse:</span>
+                    <span class="print-value" id="printSpouseName" style="min-width: 350px;"></span>
+                </div>
+                <div class="print-field">
+                    <span class="print-label">Contact No.:</span>
+                    <span class="print-value" id="printContactNo" style="min-width: 200px;"></span>
+                </div>
+            </div>
+            
+            <div class="print-section print-full-width">
+                <div class="print-label">II. Purpose Loan:</div>
+                <div class="checkbox-group">
+                    <div class="print-col-left">
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkEmergency">( )</span> Emergency
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkProvidential">( )</span> Providential
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkAgricultural">( )</span> Agricultural
+                        </div>
+                    </div>
+                    <div class="print-col-right">
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkFarmEquipment">( )</span> Farm Equipment
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkCropProduction">( )</span> Crop Production
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkOthers">( )</span> Others
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="print-field">
+                    <span class="print-label">Security Offered:</span>
+                    <span class="print-value" id="printSecurityOffered" style="min-width: 450px;"></span>
+                </div>
+            </div>
+            
+            <div class="print-section print-full-width">
+                <div class="print-field">
+                    <span class="print-label">III. Amount of Loan Application: ₱</span>
+                    <span class="print-value" id="printLoanAmount" style="min-width: 300px;"></span>
+                </div>
+                <div class="print-field">
+                    <span class="print-label">IV. Sketch Map (use separate sheet if necessary)</span>
+                </div>
+                <div class="print-row">
+                    <div class="print-col-left">
+                        <div class="print-field">
+                            <span class="print-label">Annual Income:</span>
+                            <span class="print-value" id="printAnnualIncome" style="min-width: 150px;"></span>
+                        </div>
+                    </div>
+                    <div class="print-col-right">
+                        <div class="print-field">
+                            <span class="print-label">Source of Income:</span>
+                            <span class="print-value" id="printSourceIncome" style="min-width: 150px;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="print-signatures">
+                <div class="signature-line">Signature of Borrower</div>
+                <div class="signature-line">Signature of Spouse</div>
+            </div>
+            
+            <div class="print-signatures-center">
+                <div class="signature-line">Signature of Co-Maker (if necessary)</div>
+            </div>
+            
+            <div class="print-field">
+                <span class="print-label">Date Accomplish:</span>
+                <span class="print-value" style="min-width: 200px;"></span>
+            </div>
+            
+            <div class="print-section print-full-width">
+                <div class="print-label">BASIS OF RECOMMENDATION:</div>
+                <div class="print-row">
+                    <div class="print-col-left">
+                        <div class="print-field">
+                            <span class="print-label">Member's Paid-up Capital:</span>
+                            <span class="print-value" id="printPaidUpCapital" style="min-width: 150px;"></span>
+                        </div>
+                    </div>
+                    <div class="print-col-right">
+                        <div class="print-label">CBU:</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <span class="checkbox" id="checkCbuUpdated">( )</span> Updated
+                            </div>
+                            <div class="checkbox-item">
+                                <span class="checkbox" id="checkCbuNotUpdated">( )</span> Not Updated
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="print-field">
+                    <span class="print-label">Previous Loan:</span>
+                    <span class="print-value" id="printPreviousLoan" style="min-width: 200px;"></span>
+                </div>
+                <div class="print-field">
+                    <span class="print-label">Outstanding Balance:</span>
+                    <span class="print-value" id="printOutstandingBalance" style="min-width: 200px;"></span>
+                </div>
+            </div>
+            
+            <div class="print-section print-full-width">
+                <div class="print-label">Borrower's Category:</div>
+                <div class="print-row">
+                    <div class="print-col-left">
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkNewMember">( )</span> New Member
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkNewBorrower">( )</span> New Borrower
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkOldMember">( )</span> Old Member
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkOldBorrower">( )</span> Old Borrower
+                        </div>
+                    </div>
+                    <div class="print-col-right">
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkWithOBBalance">( )</span> With O/B Balance
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkCurrent">( )</span> Current
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkRestructured">( )</span> Restructured
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkPastDue">( )</span> Past Due
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox" id="checkOthersStatus">( )</span> Others: <span class="print-value" style="min-width: 100px;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="print-section print-full-width">
+                <div class="print-field">
+                    <span class="print-label">AMOUNT OF LOAN RECOMMENDED ₱</span>
+                    <span class="print-value" style="min-width: 300px;"></span>
+                </div>
+                <div class="print-field">
+                    <span class="print-label">LOAN APPLICATION RECOMMENDED BY:</span>
+                </div>
+                <div class="print-signatures-center">
+                    <div class="signature-line">(Coop. Loan officer)</div>
+                </div>
+                <div class="print-field">
+                    <span class="print-label">Date:</span>
+                    <span class="print-value" style="min-width: 200px;"></span>
+                </div>
+            </div>
+            
+            <div class="approval-section">
+                <div class="print-row">
+                    <div class="print-col-left">
+                        <div class="print-label">MANAGEMENT/CREDIT COMMITTEE'S ACTION:</div>
+                    </div>
+                    <div class="print-col-right">
+                        <div class="print-field">
+                            <span class="print-label">Date:</span>
+                            <span class="print-value" style="min-width: 150px;"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="print-row">
+                    <div class="print-col-left">
+                        <div class="checkbox-item">
+                            <span class="checkbox">( )</span> Approved
+                        </div>
+                        <div class="checkbox-item">
+                            <span class="checkbox">( )</span> Disapproved
+                        </div>
+                    </div>
+                    <div class="print-col-right">
+                        <div class="print-field">
+                            <span class="print-label">Amount ₱</span>
+                            <span class="print-value" style="min-width: 150px;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="print-section print-full-width">
+                <div class="print-label">COOPERATIVE LOANS APPROVING COMMITTEE:</div>
+                <div class="print-committee">
+                    <div class="signature-line">&nbsp;</div>
+                    <div class="signature-line">Operation Manager</div>
+                    <div class="signature-line">General Manager</div>
+                </div>
+            </div>
+        </div>
+        <button id="printButton" style="display:none;" onclick="printForm()">Print Form</button>
+    </div>
+
+    <script>
+            // Function to format the date as YYYY-MM-DD
+    function getCurrentDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // Set the current date to the Date of Application field
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateOfApplicationField = document.getElementById('date_of_application');
+        dateOfApplicationField.value = getCurrentDate();
+    });
+    
+        document.getElementById("loanForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const notification = document.getElementById("notification");
+            
+            fetch("/member/loan-regular", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                notification.textContent = data.message;
+                notification.className = data.success ? "notification success" : "notification error";
+                notification.style.display = "block";
+                
+                setTimeout(() => { notification.style.display = "none"; }, 3000);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                notification.textContent = "An error occurred. Please try again.";
+                notification.className = "notification error";
+                notification.style.display = "block";
+            });
+
+            // Populate the printable area
+            document.getElementById('printDate').textContent = document.getElementById('date_of_application').value;
+            document.getElementById('printAppNo').textContent = document.getElementById('application_no').value;
+            document.getElementById('printMemberName').textContent = document.getElementById('member_name').value;
+            document.getElementById('printAddress').textContent = document.getElementById('address').value;
+            document.getElementById('printContactNo').textContent = document.getElementById('contact_no').value;
+            document.getElementById('printLoanAmount').textContent = document.getElementById('loan_amount').value;
+            document.getElementById('printAnnualIncome').textContent = document.getElementById('annual_income').value;
+            document.getElementById('printSourceIncome').textContent = document.getElementById('source_of_income').value;
+            document.getElementById('printSpouseName').textContent = document.getElementById('spouse_name').value;
+            document.getElementById('printAccountNo').textContent = document.getElementById('account_no').value;
+            document.getElementById('printCoopId').textContent = document.getElementById('coop_id').value;
+            document.getElementById('printSecurityOffered').textContent = document.getElementById('security_offered').value;
+            document.getElementById('printPaidUpCapital').textContent = document.getElementById('paid_up_capital').value;
+            document.getElementById('printPreviousLoan').textContent = document.getElementById('previous_loan').value;
+            document.getElementById('printOutstandingBalance').textContent = document.getElementById('outstanding_balance').value;
+            
+            // Handle checkboxes for purpose
+            if(document.getElementById('purpose_emergency').checked) {
+                document.getElementById('checkEmergency').innerHTML = '(✓)';
+            }
+            if(document.getElementById('purpose_providential').checked) {
+                document.getElementById('checkProvidential').innerHTML = '(✓)';
+            }
+            if(document.getElementById('purpose_agricultural').checked) {
+                document.getElementById('checkAgricultural').innerHTML = '(✓)';
+            }
+            if(document.getElementById('purpose_farm_equipment').checked) {
+                document.getElementById('checkFarmEquipment').innerHTML = '(✓)';
+            }
+            if(document.getElementById('purpose_crop_production').checked) {
+                document.getElementById('checkCropProduction').innerHTML = '(✓)';
+            }
+            if(document.getElementById('purpose_others').checked) {
+                document.getElementById('checkOthers').innerHTML = '(✓)';
+            }
+            
+            // Handle CBU status
+            if(document.getElementById('cbu_status').value === 'Updated') {
+                document.getElementById('checkCbuUpdated').innerHTML = '(✓)';
+            } else {
+                document.getElementById('checkCbuNotUpdated').innerHTML = '(✓)';
+            }
+            
+            // Handle borrower category
+            const borrowerCategory = document.getElementById('borrower_category').value;
+            if(borrowerCategory === 'New Member') {
+                document.getElementById('checkNewMember').innerHTML = '(✓)';
+            } else if(borrowerCategory === 'New Borrower') {
+                document.getElementById('checkNewBorrower').innerHTML = '(✓)';
+            } else if(borrowerCategory === 'Old Member') {
+                document.getElementById('checkOldMember').innerHTML = '(✓)';
+            } else if(borrowerCategory === 'Old Borrower') {
+                document.getElementById('checkOldBorrower').innerHTML = '(✓)';
+            }
+            
+            // Handle loan balance status
+            const loanBalanceStatus = document.getElementById('loan_balance_status').value;
+            if(loanBalanceStatus === 'With O/B Balance') {
+                document.getElementById('checkWithOBBalance').innerHTML = '(✓)';
+            } else if(loanBalanceStatus === 'Current') {
+                document.getElementById('checkCurrent').innerHTML = '(✓)';
+            } else if(loanBalanceStatus === 'Restructured') {
+                document.getElementById('checkRestructured').innerHTML = '(✓)';
+            } else if(loanBalanceStatus === 'Past Due') {
+                document.getElementById('checkPastDue').innerHTML = '(✓)';
+            } else if(loanBalanceStatus === 'Others') {
+                document.getElementById('checkOthersStatus').innerHTML = '(✓)';
+            }
+
+            // Show the print button
+            document.getElementById('printButton').style.display = 'block';
+            
+            // Show the printable area for preview
+            document.getElementById('printableArea').style.display = 'block';
+        });
+
+        function printForm() {
+            window.print();
+        }
+    </script>
+</body>
