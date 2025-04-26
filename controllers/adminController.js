@@ -304,5 +304,32 @@ exports.saveSalaryBonusLoan = async (req, res) => {
         });
     }
 };
-
+exports.renderRegularLoanForm = async (req, res) => {
+    try {
+        const cbNumber = req.query.cbNumber;
+        let loan = {};
+        
+        if (cbNumber) {
+            loan = await new Promise((resolve, reject) => {
+                Loan.getRegularAgriculturalLoanByCbNumber(cbNumber, (err, result) => {
+                    if (err) reject(err);
+                    resolve(result || {});
+                });
+            });
+        }
+        
+        res.render('admin/loan-regular', {
+            currentPage: 'loan-applications',
+            cbNumber: cbNumber || '',
+            loan: loan
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.render('admin/loan-regular', {
+            currentPage: 'loan-applications',
+            cbNumber: req.query.cbNumber || '',
+            loan: {}
+        });
+    }
+};
 module.exports = exports;
