@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #105f57;
-            --primary-dark: #157f97;
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
             --primary-light: #eff6ff;
             --secondary: #64748b;
             --success: #10b981;
@@ -507,27 +507,6 @@
             }
         }
         
-        /* Notification Badge */
-        .notification-badge {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background-color: var(--danger);
-            color: white;
-            font-size: 10px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .sidebar.collapsed .notification-badge {
-            top: 2px;
-            right: 2px;
-        }
-        
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -536,6 +515,32 @@
         
         .sidebar {
             animation: fadeIn 0.3s ease;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            color: var(--gray-600);
+            border: 1px solid var(--gray-200);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 90;
+            transition: var(--transition);
+        }
+        
+        .theme-toggle:hover {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
         
         /* Dark Mode Styles */
@@ -556,6 +561,7 @@
         body.dark-mode .sidebar,
         body.dark-mode .main-content,
         body.dark-mode .toggle-sidebar,
+        body.dark-mode .theme-toggle,
         body.dark-mode .mobile-toggle {
             background-color: var(--gray-50);
             color: var(--gray-600);
@@ -578,8 +584,18 @@
         }
         
         body.dark-mode .toggle-sidebar,
+        body.dark-mode .theme-toggle,
         body.dark-mode .mobile-toggle {
             border-color: var(--gray-200);
+        }
+
+        /* Dashboard Sections */
+        .dashboard-section {
+            display: none;
+        }
+    
+        .dashboard-section.active {
+            display: block;
         }
     </style>
 </head>
@@ -595,104 +611,64 @@
             <div class="logo-icon">
                 <i class="fa-solid fa-user"></i>
             </div>
-            <span>Member Portal</span>
+            <span>Member Dashboard</span>
         </div>
         
         <div class="nav">
             <div class="nav-section">
                 <div class="nav-section-title">Main</div>
-                <a href="/member/dashboard" class="nav-item active">
-                    <i class="fa-solid fa-gauge-high"></i>
+                <a href="/member/dashboard" class="nav-item">
+                    <i class="fa-solid fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                     <div class="tooltip">Dashboard</div>
                 </a>
-                <a href="/member/account-summary" class="nav-item">
-                    <i class="fa-solid fa-wallet"></i>
-                    <span>Account Summary</span>
-                    <div class="tooltip">Account Summary</div>
+                <a href="/financial-forecast" class="nav-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Financial Forecast</span>
+                    <div class="tooltip">Financial Forecast</div>
                 </a>
             </div>
             
             <div class="nav-section">
-                <div class="nav-section-title">Services</div>
-                
-                <div class="nav-item" id="loan-menu">
+                <div class="nav-section-title">Loan Management</div>
+                <div class="nav-item" onclick="toggleDropdown('loan-dropdown')">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
-                    <span>My Loans</span>
+                    <span>My Loan</span>
                     <i class="fa-solid fa-chevron-down chevron"></i>
-                    <div class="tooltip">My Loans</div>
+                    <div class="tooltip">My Loan</div>
                 </div>
                 <div id="loan-dropdown" class="dropdown">
                     <a href="/member/loan-application" class="nav-item">
                         <i class="fa-solid fa-file-pen"></i>
-                        <span>Apply for Loan</span>
-                    </a>
-                    <a href="/member/loan-status" class="nav-item">
-                        <i class="fa-solid fa-list-check"></i>
-                        <span>Loan Status</span>
-                        <div class="badge warning">1</div>
-                    </a>
-                    <a href="/member/loan-history" class="nav-item">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                        <span>Loan History</span>
-                    </a>
-                </div>
-                
-                <a href="/member/notifications" class="nav-item">
-                    <i class="fa-solid fa-bell"></i>
-                    <span>Notifications</span>
-                    <div class="notification-badge">3</div>
-                    <div class="tooltip">Notifications</div>
-                </a>
-                
-                <a href="/member/documents" class="nav-item">
-                    <i class="fa-solid fa-folder-open"></i>
-                    <span>My Documents</span>
-                    <div class="tooltip">My Documents</div>
-                </a>
-            </div>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">Support</div>
-                <a href="/member/help" class="nav-item">
-                    <i class="fa-solid fa-circle-question"></i>
-                    <span>Help Center</span>
-                    <div class="tooltip">Help Center</div>
-                </a>
-                <a href="/member/contact" class="nav-item">
-                    <i class="fa-solid fa-headset"></i>
-                    <span>Contact Us</span>
-                    <div class="tooltip">Contact Us</div>
-                </a>
-            </div>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">Settings</div>
-                <div class="nav-item" id="settings-menu">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                    <i class="fa-solid fa-chevron-down chevron"></i>
-                    <div class="tooltip">Settings</div>
-                </div>
-                <div id="settings-dropdown" class="dropdown">
-                    <a href="/member/profile" class="nav-item">
-                        <i class="fa-solid fa-user-pen"></i>
-                        <span>Edit Profile</span>
-                    </a>
-                    <a href="/member/change-password" class="nav-item">
-                        <i class="fa-solid fa-lock"></i>
-                        <span>Change Password</span>
+                        <span>Loan Application</span>
                     </a>
                 </div>
             </div>
         </div>
         
         <div class="nav-bottom">
+            <div class="nav-item" onclick="toggleDropdown('settings-dropdown')">
+                <i class="fa-solid fa-cog"></i>
+                <span>Settings</span>
+                <i class="fa-solid fa-chevron-down chevron"></i>
+                <div class="tooltip">Settings</div>
+            </div>
+            <div id="settings-dropdown" class="dropdown">
+                <a href="/member/profile" class="nav-item">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="/member/change-password" class="nav-item">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Change Password</span>
+                </a>
+            </div>
+            
             <div class="user-profile">
-                <div class="user-avatar" id="userInitials">--</div>
+                <div class="user-avatar">MU</div>
                 <div class="user-info">
-                    <div class="user-name" id="userName">Loading...</div>
-                    <div class="user-role" id="userRole">Member #----</div>
+                    <div class="user-name">Member User</div>
+                    <div class="user-role">Regular Member</div>
                 </div>
                 <div class="user-actions">
                     <a href="/logout" class="user-action-btn" title="Logout">
@@ -708,8 +684,15 @@
     </div>
     
     <div class="main-content" id="mainContent">
-        <!-- Your main content goes here -->
+        <!-- Main content will go here -->
+        <div class="dashboard-section active" id="financial-forecast">
+            <!-- Financial Forecast content -->
+        </div>
     </div>
+    
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fa-solid fa-moon"></i>
+    </button>
     
     <script>
         // Toggle dropdown functionality
@@ -757,9 +740,6 @@
                     if (parent) parent.classList.remove('active');
                 });
             }
-            
-            // Save sidebar state
-            localStorage.setItem('memberSidebarCollapsed', sidebar.classList.contains('collapsed'));
         });
         
         // Mobile sidebar toggle
@@ -776,14 +756,38 @@
             mobileOverlay.classList.remove('active');
         });
         
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+            
+            // Save preference
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            
+            // Update icon
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+        
         // Set active item based on current page
         document.addEventListener('DOMContentLoaded', function() {
-            // Get current path and set active menu item
             const currentPath = window.location.pathname;
             const navItems = document.querySelectorAll('.nav-item');
             
             navItems.forEach(item => {
-                if (item.getAttribute('href') && item.getAttribute('href') === currentPath) {
+                if (item.getAttribute('href') === currentPath) {
                     item.classList.add('active');
                     
                     // Open parent dropdown if this is a child item
@@ -797,24 +801,15 @@
             });
             
             // Check for saved sidebar state
-            if (localStorage.getItem('memberSidebarCollapsed') === 'true') {
+            if (localStorage.getItem('sidebarCollapsed') === 'true') {
                 sidebar.classList.add('collapsed');
                 mainContent.classList.add('expanded');
                 toggleSidebar.classList.add('collapsed');
             }
             
-            // Load user data (in a real app, this would come from your backend)
-            loadUserData();
-            
-            // Set up menu click handlers
-            document.getElementById('loan-menu').addEventListener('click', function(e) {
-                e.preventDefault();
-                toggleDropdown('loan-dropdown');
-            });
-            
-            document.getElementById('settings-menu').addEventListener('click', function(e) {
-                e.preventDefault();
-                toggleDropdown('settings-dropdown');
+            // Save sidebar state when toggled
+            toggleSidebar.addEventListener('click', function() {
+                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
             });
         });
         
@@ -822,7 +817,7 @@
         const navItems = document.querySelectorAll('.nav-item');
         
         navItems.forEach(item => {
-            if (item.nextElementSibling && item.nextElementSibling.classList.contains('dropdown')) {
+            if (item.querySelector('.dropdown')) {
                 item.addEventListener('mouseenter', function() {
                     if (isSidebarCollapsed()) {
                         const dropdown = this.nextElementSibling;
@@ -833,31 +828,18 @@
                 item.addEventListener('mouseleave', function() {
                     if (isSidebarCollapsed()) {
                         const dropdown = this.nextElementSibling;
-                        setTimeout(() => {
-                            if (!dropdown.matches(':hover')) {
-                                dropdown.classList.remove('show');
-                            }
-                        }, 200);
+                        dropdown.classList.remove('show');
                     }
                 });
             }
         });
-        
-        // Function to load user data
-        function loadUserData() {
-            // In a real application, you would fetch this from your backend API
-            // This is just a simulation
-            setTimeout(() => {
-                const userData = {
-                    fullName: "Juan Dela Cruz", // This would be the actual logged-in user
-                    memberId: "M-2023-00123",
-                    initials: "JC"
-                };
-                
-                document.getElementById('userName').textContent = userData.fullName;
-                document.getElementById('userRole').textContent = `Member #${userData.memberId}`;
-                document.getElementById('userInitials').textContent = userData.initials;
-            }, 500);
+
+        // Function to show/hide sections
+        function showSection(sectionId) {
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
         }
     </script>
 </body>
